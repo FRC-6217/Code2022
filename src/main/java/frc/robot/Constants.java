@@ -14,7 +14,7 @@ package frc.robot;
  */
 public final class Constants {
     //test piston constants
-    public static final int PCM_CAN_ID = 9;
+    public static final int PCM_CAN_ID = 0;
     public static final int PISTON_1_ID_1 = 1;
     public static final int PISTON_1_ID_2 = 0;
 }

@@ -34,8 +34,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(xbox, 1).whenPressed(new Puncher(puncher, 1 ));
-    new JoystickButton(xbox, 2).whenPressed(new Puncher(puncher, 2 ));
+    new JoystickButton(xbox, 1).whenPressed(new Puncher(puncher, 1));
+    new JoystickButton(xbox, 2).whenPressed(new Puncher(puncher, 2));
+    new JoystickButton(xbox, 3).whenPressed(new Puncher(puncher, 0));
   }
 
   /**
