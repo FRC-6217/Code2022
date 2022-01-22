@@ -1,0 +1,11 @@
+{
+  "SysId": {
+    "Analysis Type": "Drivetrain",
+    "AnalyzerJSONLocation": "C:\\Users\\piera\\Desktop\\Voltage Config\\sysid_data20220121-162315.json",
+    "NetworkTables Settings": {
+      "serverTeam": "6217"
+    },
+    "mode": "Client",
+    "serverTeam": "6217"
+  }
+}
