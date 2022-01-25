@@ -10,10 +10,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
@@ -62,16 +64,20 @@ public class DriveTrain extends SubsystemBase {
     dt_Drive = new DifferentialDrive(dt_LeftMotors, dt_RightMotors);
 
     dt_LeftMotor_Encoder_L = dt_LeftMotor_F.getEncoder();
-    dt_LeftMotor_Encoder_L.setPositionConversionFactor(0.4788);
+    dt_LeftMotor_Encoder_L.setPositionConversionFactor(0.044705);
+    dt_LeftMotor_Encoder_L.setVelocityConversionFactor(0.044705);
     
     dt_LeftMotor_Encoder_F = dt_LeftMotor_F.getEncoder();
-    dt_LeftMotor_Encoder_F.setPositionConversionFactor(0.4788);
+    dt_LeftMotor_Encoder_F.setPositionConversionFactor(0.044705);
+    dt_LeftMotor_Encoder_F.setVelocityConversionFactor(0.044705);
 
     dt_RightMotor_Encoder_L = dt_RightMotor_F.getEncoder();
-    dt_RightMotor_Encoder_L.setPositionConversionFactor(0.4788);
+    dt_RightMotor_Encoder_L.setPositionConversionFactor(0.044705);
+    dt_RightMotor_Encoder_L.setVelocityConversionFactor(0.044705);
 
     dt_RightMotor_Encoder_F = dt_RightMotor_F.getEncoder();
-    dt_RightMotor_Encoder_F.setPositionConversionFactor(0.4788);
+    dt_RightMotor_Encoder_F.setPositionConversionFactor(0.044705);
+    dt_RightMotor_Encoder_F.setVelocityConversionFactor(0.044705);
     
 
     dt_gyro = new AnalogGyro(0);
@@ -79,9 +85,8 @@ public class DriveTrain extends SubsystemBase {
 
     dt_kinematics = new DifferentialDriveKinematics(0.6784);
     dt_feedforward = new SimpleMotorFeedforward(0.12923, 2.7944, 0.32061);
+    dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
 
-    dt_LeftPID = new PIDController(1, 0, 0);
-    dt_RightPID = new PIDController(1, 0, 0);
   }
 
   public double getLeftEncoderRate(){
@@ -92,12 +97,52 @@ public class DriveTrain extends SubsystemBase {
     return (dt_RightMotor_Encoder_L.getVelocity() + dt_RightMotor_Encoder_F.getVelocity()) / 2;
   }
 
+  public double getLeftEncoderPosition(){
+    return (dt_LeftMotor_Encoder_L.getPosition() + dt_LeftMotor_Encoder_F.getPosition()) / 2;
+  }
+
+  public double getRightEncoderPosition(){
+    return (dt_RightMotor_Encoder_L.getPosition() + dt_RightMotor_Encoder_F.getPosition()) / 2;
+  }
+
+  public void resetEncoders() {
+    dt_LeftMotor_Encoder_L.setPosition(0);
+    dt_LeftMotor_Encoder_F.setPosition(0);
+    dt_RightMotor_Encoder_L.setPosition(0);
+    dt_RightMotor_Encoder_F.setPosition(0);
+  }
+
+  public void zeroHeading() {
+    dt_gyro.reset();
+  }
+
+  public double getHeading() {
+    return dt_gyro.getRotation2d().getDegrees();
+  }
+
+  public double getTurnRate() {
+    return -dt_gyro.getRate();
+  }
+
+  public Pose2d getPose() {
+    return dt_odometry.getPoseMeters();
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    dt_LeftMotors.setVoltage(leftVolts);
+    dt_RightMotors.setVoltage(rightVolts);
+    dt_Drive.feed();
+
+  }
+
   public void arcadeDrive(double fwd, double rot) {
     dt_Drive.arcadeDrive(fwd, rot);
   }
 
   @Override
   public void periodic() {
+    
+    dt_odometry.update(dt_gyro.getRotation2d(), getLeftEncoderPosition(), getRightEncoderPosition());
     // This method will be called once per scheduler run
   }
 }

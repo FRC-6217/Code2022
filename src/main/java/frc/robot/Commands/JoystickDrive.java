@@ -6,6 +6,7 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
@@ -15,8 +16,8 @@ public class JoystickDrive extends CommandBase {
   private Joystick joy;
 
   
-  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
-  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
+  private SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
+  //private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(5);
 
   public JoystickDrive(DriveTrain driveTrain, Joystick joy) {
     this.joy = joy;
@@ -35,8 +36,9 @@ public class JoystickDrive extends CommandBase {
   public void execute() {
     double gov = (1-joy.getRawAxis(3))/2;
     double xSpeed = m_speedLimiter.calculate(joy.getRawAxis(1)) * gov;
-    double rot = -m_rotLimiter.calculate(joy.getRawAxis(2)) * gov;
+    double rot = -joy.getRawAxis(2) * gov;
 
+    SmartDashboard.putNumber("x", joy.getRawAxis(1));
     driveTrain.arcadeDrive(xSpeed, rot);
 
   }
