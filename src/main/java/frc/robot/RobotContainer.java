@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.subsystem.PIDMotorControl;
+import frc.robot.subsystem.SingleMotorControl;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -17,7 +23,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+   /* 
+    SingleMotorControl intake = new SingleMotorControl(28, MotorType.kBrushless, 1, .05);
+    SingleMotorControl shooter = new SingleMotorControl(29, MotorType.kBrushless, 1, .05);
+    */
+    XboxController xboxController = new XboxController(0);
+    PIDMotorControl shooter = new PIDMotorControl(10, "practice");
     // Configure the button bindings
+    CommandScheduler.getInstance().setDefaultCommand(shooter, new ShooterCommand(shooter, xboxController));
     configureButtonBindings();
   }
 
