@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.PIDCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.subsystem.CustomPID;
 import frc.robot.subsystem.PIDMotorControl;
 import frc.robot.subsystem.SingleMotorControl;
 
@@ -28,9 +30,9 @@ public class RobotContainer {
     SingleMotorControl shooter = new SingleMotorControl(29, MotorType.kBrushless, 1, .05);
     */
     XboxController xboxController = new XboxController(0);
-    PIDMotorControl shooter = new PIDMotorControl(10, "practice");
+    CustomPID shooter = new CustomPID("practice", 29);
     // Configure the button bindings
-    CommandScheduler.getInstance().setDefaultCommand(shooter, new ShooterCommand(shooter, xboxController));
+    CommandScheduler.getInstance().setDefaultCommand(shooter, new PIDCommand(shooter, xboxController));
     configureButtonBindings();
   }
 

@@ -6,13 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.PIDMotorControl;
+import frc.robot.subsystem.CustomPID;
 
-public class ShooterCommand extends CommandBase {
-  private PIDMotorControl shooterSubsystem;
+public class PIDCommand extends CommandBase {
+  /** Creates a new PIDCommand. */
+  private CustomPID shooterSubsystem;
   private XboxController xboxController;
-  /** Creates a new ShooterCommand. */
-  public ShooterCommand(PIDMotorControl shooterSubsystem, XboxController xboxController) {
+
+  public PIDCommand(CustomPID shooterSubsystem, XboxController xboxController) {
     this.shooterSubsystem = shooterSubsystem;
     this.xboxController = xboxController;
     // Use addRequirements() here to declare subsystem dependencies.
