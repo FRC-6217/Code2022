@@ -4,15 +4,21 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.DriveTrain;
 
 public class PathfinderExample extends CommandBase {
   /** Creates a new PathfinderExample. */
   private DriveTrain m_driveTrain;
   private DifferentialDriveVoltageConstraint m_volatageConstraint;
-  private int x;
+  private TrajectoryConfig config;
+  private Trajectory exampleTrajectory;
+  private RamseteCommand ramseteCommand;
+  
   public PathfinderExample() {
     // Use addRequirements() here to declare subsystem dependencies.
   }

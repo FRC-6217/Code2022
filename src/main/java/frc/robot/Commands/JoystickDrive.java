@@ -16,9 +16,7 @@ public class JoystickDrive extends CommandBase {
   private Joystick joy;
 
   
-  private SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
-  //private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(5);
-
+  
   public JoystickDrive(DriveTrain driveTrain, Joystick joy) {
     this.joy = joy;
     this.driveTrain = driveTrain;
@@ -35,10 +33,13 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
     double gov = (1-joy.getRawAxis(3))/2;
-    double xSpeed = m_speedLimiter.calculate(joy.getRawAxis(1)) * gov;
+    double xSpeed = joy.getRawAxis(1) * gov;
     double rot = -joy.getRawAxis(2) * gov;
 
-    SmartDashboard.putNumber("x", joy.getRawAxis(1));
+    SmartDashboard.putNumber("EncodersLeft", driveTrain.getLeftEncoderPosition());
+    //SmartDashboard.putNumber("EncoderRight", driveTrain.getRightEncoderPosition());
+    SmartDashboard.putNumber("Gyro", driveTrain.getDegrees());
+    SmartDashboard.putNumber("x", rot);
     driveTrain.arcadeDrive(xSpeed, rot);
 
   }

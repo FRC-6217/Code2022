@@ -1,7 +1,17 @@
 {
   "SysId": {
-    "Analysis Type": "Drivetrain",
+    "Analysis Type": "General Mechanism",
     "AnalyzerJSONLocation": "C:\\Users\\piera\\Desktop\\Voltage Config\\sysid_data20220121-162315.json",
+    "Generator": {
+      "window": {
+        "visible": false
+      }
+    },
+    "Logger": {
+      "window": {
+        "visible": false
+      }
+    },
     "NetworkTables Settings": {
       "serverTeam": "6217"
     },
