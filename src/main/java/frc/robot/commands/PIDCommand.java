@@ -11,10 +11,10 @@ import frc.robot.subsystem.CustomPIDPosition;
 
 public class PIDCommand extends CommandBase {
   /** Creates a new PIDCommand. */
-  private CustomPIDPosition shooterSubsystem;
+  private CustomPID shooterSubsystem;
   private XboxController xboxController;
 
-  public PIDCommand(CustomPIDPosition shooterSubsystem, XboxController xboxController) {
+  public PIDCommand(CustomPID shooterSubsystem, XboxController xboxController) {
     this.shooterSubsystem = shooterSubsystem;
     this.xboxController = xboxController;
     // Use addRequirements() here to declare subsystem dependencies.
