@@ -110,6 +110,12 @@ public class CustomPID extends SubsystemBase {
       }
 
       SmartDashboard.putNumber("Motor Speed", newMotorSpeed);
+      SmartDashboard.putNumber("Applied Output", motorController.getAppliedOutput());
+      SmartDashboard.putNumber("Current", motorController.getOutputCurrent());
+      SmartDashboard.putNumber("Bus Voltage", motorController.getBusVoltage());
+      SmartDashboard.putNumber("Sticky Faults", motorController.getStickyFaults());
+      
+      
 
       motorController.setVoltage(newMotorSpeed);
 
