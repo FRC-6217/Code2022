@@ -33,7 +33,7 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
     double gov = (1-joy.getRawAxis(3))/2;
-    double xSpeed = joy.getRawAxis(1) * gov;
+    double xSpeed = -joy.getRawAxis(1) * gov;
     double rot = -joy.getRawAxis(2) * gov;
 
     SmartDashboard.putNumber("EncodersLeft", driveTrain.getLeftEncoderPosition());

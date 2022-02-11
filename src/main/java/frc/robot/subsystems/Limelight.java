@@ -50,7 +50,7 @@ public class Limelight extends SubsystemBase {
     distance.setValid(getValid());
 
     angle.setValue(getAngleHorizontal());
-    distance.setValue(());
+    // distance.setValue(()); 
 
     // This method will be called once per scheduler run
   }
