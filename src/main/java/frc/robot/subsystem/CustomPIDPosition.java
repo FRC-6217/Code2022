@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class CustomPID extends SubsystemBase {
+public class CustomPIDPosition extends SubsystemBase {
   private double p = 0;
   private double i = 0;
   private double d = 0;
@@ -26,7 +26,7 @@ public class CustomPID extends SubsystemBase {
   /** Creates a new CustomPID. */
 
 
-  public CustomPID(String name, int motorID) {
+  public CustomPIDPosition(String name, int motorID) {
   this.name = name;
   this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
   SmartDashboard.putNumber(name + " P Gain", 0);
@@ -89,16 +89,18 @@ public class CustomPID extends SubsystemBase {
     motorState = false;
     sumError = 0;
     previousError = 0;
+    motorController.getEncoder().setPosition(0);
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Current POS", motorController.getEncoder().getPosition());
     SmartDashboard.putNumber("Current RPM", motorController.getEncoder().getVelocity());
-    SmartDashboard.putNumber("Current RPM Graph", motorController.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Current POS Graph", motorController.getEncoder().getPosition());
     updateConstants();
     if (motorState == true)
     {
-      double newMotorSpeed = calculate(setPoint, motorController.getEncoder().getVelocity());
+      double newMotorSpeed = calculate(setPoint, motorController.getEncoder().getPosition());
       if (newMotorSpeed >= 10.5)
       {
         newMotorSpeed = 10.5;

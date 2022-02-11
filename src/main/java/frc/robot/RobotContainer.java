@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.PIDCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystem.CustomPID;
+import frc.robot.subsystem.CustomPIDPosition;
 import frc.robot.subsystem.PIDMotorControl;
 import frc.robot.subsystem.SingleMotorControl;
 
@@ -30,7 +31,7 @@ public class RobotContainer {
     SingleMotorControl shooter = new SingleMotorControl(29, MotorType.kBrushless, 1, .05);
     */
     XboxController xboxController = new XboxController(0);
-    CustomPID shooter = new CustomPID("practice", 29);
+    CustomPIDPosition shooter = new CustomPIDPosition("practice", 29);
     // Configure the button bindings
     CommandScheduler.getInstance().setDefaultCommand(shooter, new PIDCommand(shooter, xboxController));
     configureButtonBindings();
