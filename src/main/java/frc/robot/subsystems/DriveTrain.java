@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.Pigeon2Configuration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -33,7 +36,7 @@ public class DriveTrain extends SubsystemBase {
   private MotorControllerGroup dt_LeftMotors;
   private MotorControllerGroup dt_RightMotors;
 
-  private final DifferentialDrive dt_Drive;
+  //private final DifferentialDrive dt_Drive;
 
 
   private RelativeEncoder dt_LeftMotor_Encoder_L;
@@ -41,11 +44,12 @@ public class DriveTrain extends SubsystemBase {
   private RelativeEncoder dt_RightMotor_Encoder_L;
   private RelativeEncoder dt_RightMotor_Encoder_F;
 
-  private AnalogGyro dt_gyro;
 
   private DifferentialDriveKinematics dt_kinematics;
   private DifferentialDriveOdometry dt_odometry;
   private SimpleMotorFeedforward dt_feedforward;
+
+  private Pigeon2 gyro;
 
 
 
@@ -53,15 +57,19 @@ public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public DriveTrain() {
     dt_LeftMotor_L = new CANSparkMax(33, MotorType.kBrushless);
+    dt_LeftMotor_L.setIdleMode(IdleMode.kBrake);
     dt_LeftMotor_F = new CANSparkMax(32, MotorType.kBrushless);
+    dt_LeftMotor_F.setIdleMode(IdleMode.kBrake);
     dt_RightMotor_L = new CANSparkMax(31, MotorType.kBrushless);
+    dt_RightMotor_L.setIdleMode(IdleMode.kBrake);
     dt_RightMotor_F = new CANSparkMax(30, MotorType.kBrushless);
+    dt_RightMotor_F.setIdleMode(IdleMode.kBrake);
 
     dt_LeftMotors = new MotorControllerGroup(dt_LeftMotor_L, dt_LeftMotor_F);
     dt_RightMotors = new MotorControllerGroup(dt_RightMotor_L, dt_RightMotor_F);
     dt_LeftMotors.setInverted(true);
 
-    dt_Drive = new DifferentialDrive(dt_LeftMotors, dt_RightMotors);
+    //dt_Drive = new DifferentialDrive(dt_LeftMotors, dt_RightMotors);
 
     dt_LeftMotor_Encoder_L = dt_LeftMotor_F.getEncoder();
     dt_LeftMotor_Encoder_L.setPositionConversionFactor(0.044705);
@@ -80,12 +88,23 @@ public class DriveTrain extends SubsystemBase {
     dt_RightMotor_Encoder_F.setVelocityConversionFactor(0.044705);
     
 
-    dt_gyro = new AnalogGyro(0);
-    dt_gyro.reset();
+    gyro = new Pigeon2(10);
+    
+    Pigeon2Configuration config = new Pigeon2Configuration();
+
+    // set mount pose as rolled 90 degrees counter-clockwise
+    
+    config.MountPoseYaw = 0;
+    
+    config.MountPosePitch = 0;
+    
+    config.MountPoseRoll = 90;
+    
+    gyro.configAllSettings(config);
 
     dt_kinematics = new DifferentialDriveKinematics(0.6784);
     dt_feedforward = new SimpleMotorFeedforward(0.12923, 2.7944, 0.32061);
-    dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
+    // dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
 
   }
 
@@ -112,17 +131,17 @@ public class DriveTrain extends SubsystemBase {
     dt_RightMotor_Encoder_F.setPosition(0);
   }
 
-  public void zeroHeading() {
-    dt_gyro.reset();
-  }
+  // public void zeroHeading() {
+  //   dt_gyro.reset();
+  // }
 
-  public double getHeading() {
-    return dt_gyro.getRotation2d().getDegrees();
-  }
+  // public double getHeading() {
+  //   return dt_gyro.getRotation2d().getDegrees();
+  // }
 
-  public double getTurnRate() {
-    return -dt_gyro.getRate();
-  }
+  // public double getTurnRate() {
+  //   return -dt_gyro.getRate();
+  // }
 
   public Pose2d getPose() {
     return dt_odometry.getPoseMeters();
@@ -131,18 +150,32 @@ public class DriveTrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     dt_LeftMotors.setVoltage(leftVolts);
     dt_RightMotors.setVoltage(rightVolts);
-    dt_Drive.feed();
+    //dt_Drive.feed();
 
   }
 
   public void arcadeDrive(double fwd, double rot) {
-    dt_Drive.arcadeDrive(fwd, rot);
+    //dt_Drive.arcadeDrive(fwd, rot);
   }
 
   @Override
   public void periodic() {
     
-    dt_odometry.update(dt_gyro.getRotation2d(), getLeftEncoderPosition(), getRightEncoderPosition());
+
+    // dt_odometry.update(Rotation2D gyro.getYaw(), getLeftEncoderPosition(), getRightEncoderPosition());
     // This method will be called once per scheduler run
+  }
+
+  public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
+    dt_LeftMotors.set(speeds.leftMetersPerSecond);
+    dt_RightMotors.set(speeds.rightMetersPerSecond);
+  }
+
+  public void drive(double xSpeed, double rot) {
+    SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+    SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
+    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+    var wheelSpeeds = dt_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
+    setSpeeds(wheelSpeeds);
   }
 }
