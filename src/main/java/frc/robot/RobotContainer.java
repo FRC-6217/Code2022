@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.JoystickDrive;
+import frc.robot.Commands.JoystickIntake;
+import frc.robot.Commands.WeekZeroAuto;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,14 +25,17 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   
   private final DriveTrain driveTrain = new DriveTrain();
+  private final Intake intake = new Intake();
   
   private final Joystick driveStick = new Joystick(0);
+  private final XboxController xboxStick = new XboxController(1);
   
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
     
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
+    CommandScheduler.getInstance().setDefaultCommand(intake , new JoystickIntake(intake, xboxStick));
   }
 
   /**
@@ -46,7 +52,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command m_autoCommand = null;
+    Command m_autoCommand = new WeekZeroAuto(driveTrain);
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }

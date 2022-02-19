@@ -49,20 +49,20 @@ public class DriveTrain extends SubsystemBase {
   private DifferentialDriveOdometry dt_odometry;
   private SimpleMotorFeedforward dt_feedforward;
 
-  private Pigeon2 gyro;
+  // private Pigeon2 gyro;
 
 
 
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-    dt_LeftMotor_L = new CANSparkMax(33, MotorType.kBrushless);
+    dt_LeftMotor_L = new CANSparkMax(40, MotorType.kBrushless);
     dt_LeftMotor_L.setIdleMode(IdleMode.kBrake);
-    dt_LeftMotor_F = new CANSparkMax(32, MotorType.kBrushless);
+    dt_LeftMotor_F = new CANSparkMax(41, MotorType.kBrushless);
     dt_LeftMotor_F.setIdleMode(IdleMode.kBrake);
-    dt_RightMotor_L = new CANSparkMax(31, MotorType.kBrushless);
+    dt_RightMotor_L = new CANSparkMax(42, MotorType.kBrushless);
     dt_RightMotor_L.setIdleMode(IdleMode.kBrake);
-    dt_RightMotor_F = new CANSparkMax(30, MotorType.kBrushless);
+    dt_RightMotor_F = new CANSparkMax(43, MotorType.kBrushless);
     dt_RightMotor_F.setIdleMode(IdleMode.kBrake);
 
     dt_LeftMotors = new MotorControllerGroup(dt_LeftMotor_L, dt_LeftMotor_F);
@@ -88,7 +88,7 @@ public class DriveTrain extends SubsystemBase {
     dt_RightMotor_Encoder_F.setVelocityConversionFactor(0.044705);
     
 
-    gyro = new Pigeon2(10);
+    // gyro = new Pigeon2(10);
     
     Pigeon2Configuration config = new Pigeon2Configuration();
 
@@ -100,9 +100,9 @@ public class DriveTrain extends SubsystemBase {
     
     config.MountPoseRoll = 90;
     
-    gyro.configAllSettings(config);
+    // gyro.configAllSettings(config);
 
-    dt_kinematics = new DifferentialDriveKinematics(0.6784);
+    dt_kinematics = new DifferentialDriveKinematics(0.6223);
     dt_feedforward = new SimpleMotorFeedforward(0.12923, 2.7944, 0.32061);
     // dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
 
@@ -172,9 +172,6 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void drive(double xSpeed, double rot) {
-    SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
-    SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
-    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
     var wheelSpeeds = dt_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
     setSpeeds(wheelSpeeds);
   }
