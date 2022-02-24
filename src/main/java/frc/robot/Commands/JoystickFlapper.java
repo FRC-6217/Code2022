@@ -4,16 +4,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Flapper;
 
-public class PathfinderExample extends CommandBase {
-  /** Creates a new PathfinderExample. */
-  private DriveTrain m_driveTrain;
-  private DifferentialDriveVoltageConstraint m_volatageConstraint;
-  private int x;
-  public PathfinderExample() {
+public class JoystickFlapper extends CommandBase {
+  /** Creates a new JoystickFlapper. */
+  private Flapper leftFlapper;
+  private XboxController xbox;
+  public JoystickFlapper(Flapper leftFlapper, XboxController xbox) {
+    this.leftFlapper = leftFlapper;
+    this.xbox = xbox;
+    addRequirements(leftFlapper);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -23,11 +25,23 @@ public class PathfinderExample extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if(xbox.getLeftY() > 0.5){
+      leftFlapper.setForward();
+    }
+    else if (xbox.getLeftY() < -0.5){
+      leftFlapper.setReverse();
+    }
+    else{
+      leftFlapper.setOff();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    leftFlapper.setOff();
+  }
 
   // Returns true when the command should end.
   @Override

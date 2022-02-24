@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.PIDMotorControl;
+import frc.robot.subsystems.PIDMotorControl;
 
 public class ShooterCommand extends CommandBase {
   private PIDMotorControl shooterSubsystem;
@@ -26,7 +26,7 @@ public class ShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (xboxController.getAButton()) {
+    if (xboxController.getRightTriggerAxis() >= 0.5) {
       shooterSubsystem.turnOn();
     }
     else {

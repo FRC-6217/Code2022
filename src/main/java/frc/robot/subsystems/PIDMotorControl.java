@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 //DONT USE, DOESNT WORK
-package frc.robot.subsystem;
+package frc.robot.subsystems;
 
 import java.lang.System.Logger;
 

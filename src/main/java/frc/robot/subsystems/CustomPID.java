@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystem;
+package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -27,12 +27,13 @@ public class CustomPID extends SubsystemBase {
 
 
   public CustomPID(String name, int motorID) {
-  this.name = name;
-  this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
-  SmartDashboard.putNumber(name + " P Gain", 0);
-  SmartDashboard.putNumber(name + " I Gain", 0);
-  SmartDashboard.putNumber(name + " D Gain", 0);
-  SmartDashboard.putNumber(name + " Set Point", 0);
+    this.name = name;
+    this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
+    this.motorController.setInverted(true);
+    SmartDashboard.putNumber(name + " P Gain", 0);
+    SmartDashboard.putNumber(name + " I Gain", 0);
+    SmartDashboard.putNumber(name + " D Gain", 0);
+    SmartDashboard.putNumber(name + " Set Point", 0);
   }
 
   public double calculate (double setPoint, double currentPoint) {

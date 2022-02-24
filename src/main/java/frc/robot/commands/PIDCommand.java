@@ -6,8 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.CustomPID;
-import frc.robot.subsystem.CustomPIDPosition;
+import frc.robot.subsystems.CustomPID;
+import frc.robot.subsystems.CustomPIDPosition;
 
 public class PIDCommand extends CommandBase {
   /** Creates a new PIDCommand. */

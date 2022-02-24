@@ -26,6 +26,10 @@ public class Intake extends SubsystemBase {
   public void setOff() {
     i_IntakeMotor.set(0);
   }
+  public void setSpeed(double speed){
+    i_IntakeMotor.set(speed);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
