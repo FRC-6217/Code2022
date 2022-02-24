@@ -11,20 +11,16 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.CustomPID;
-import frc.robot.subsystems.CustomPIDPosition;
+import frc.robot.subsystems.VelocityPID;
+import frc.robot.subsystems.PositionPID;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Flapper;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.PIDMotorControl;
 import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.JoystickFlapper;
 import frc.robot.commands.JoystickIntake;
-import frc.robot.commands.PIDCommand;
-import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.WeekZeroAuto;
-
+import frc.robot.commands.JoystickShooter;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -46,12 +42,12 @@ public class RobotContainer {
     SingleMotorControl intake = new SingleMotorControl(28, MotorType.kBrushless, 1, .05);
     SingleMotorControl shooter = new SingleMotorControl(29, MotorType.kBrushless, 1, .05);
     */
-    CustomPID shooter = new CustomPID("practice", 20);
+    VelocityPID shooter = new VelocityPID("practice", 20);
     // Configure the button bindings
     configureButtonBindings();
     
-    CommandScheduler.getInstance().setDefaultCommand(shooter, new PIDCommand(shooter, xboxStick));
-    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
+    CommandScheduler.getInstance().setDefaultCommand(shooter, new JoystickShooter(shooter, xboxStick));
+    // CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
     CommandScheduler.getInstance().setDefaultCommand(intake , new JoystickIntake(intake, xboxStick));
     //CommandScheduler.getInstance().setDefaultCommand(left_flapper , new JoystickFlapper(left_flapper, xboxStick));
     
@@ -71,7 +67,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command m_autoCommand = null; //new WeekZeroAuto(driveTrain);
+    Command m_autoCommand = null;
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
