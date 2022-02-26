@@ -12,11 +12,12 @@ public class JoystickIntake extends CommandBase {
   /** Creates a new JoystickIntake. */
   private Intake intake;
   private XboxController xbox;
+  private boolean isOn = false;
+
   public JoystickIntake(Intake intake, XboxController xbox) {
     this.intake = intake;
     this.xbox = xbox;
     addRequirements(intake);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +27,24 @@ public class JoystickIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setSpeed(xbox.getRightTriggerAxis());
+    //If the button is press, toggle the state
+    if(xbox.getRightBumperPressed()){
+      isOn = !isOn;
+    }
+
+    //If the xbox trigger is press, reverse
+    if (xbox.getRightTriggerAxis() > 0.5){
+      intake.setBackward();
+      isOn = false;//TODO Figuare this out
+    }
+    //If isOn then forward
+    else if(isOn){
+      intake.setForward();
+    }
+    //Else off
+    else {
+      intake.setOff();
+    }
   }
 
   // Called once the command ends or is interrupted.

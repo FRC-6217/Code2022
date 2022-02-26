@@ -8,30 +8,31 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.INTAKE;
 
 public class Intake extends SubsystemBase {
-  /** Creates a new Intake. */
   private CANSparkMax i_IntakeMotor;
-  private static final double INTAKE_SPEED = 0.8;
   public Intake() {
-    i_IntakeMotor = new CANSparkMax(21, MotorType.kBrushless);
+    //instantiate motor 
+    i_IntakeMotor = new CANSparkMax(INTAKE.MOTOR_ID, MotorType.kBrushless);
   }
 
+  //Run motor in the postive direction
   public void setForward() {
-    i_IntakeMotor.set(INTAKE_SPEED);
+    i_IntakeMotor.set(INTAKE.SPEED);
   }
+  
+  //Run motor in the negative direction
   public void setBackward() {
-    i_IntakeMotor.set(-INTAKE_SPEED);
+    i_IntakeMotor.set(-INTAKE.SPEED);
   }
+  
+  //Turn motor off
   public void setOff() {
     i_IntakeMotor.set(0);
-  }
-  public void setSpeed(double speed){
-    i_IntakeMotor.set(speed);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

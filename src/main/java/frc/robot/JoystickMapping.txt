@@ -1,0 +1,29 @@
+Joystick:
+
+Y-axis - linear movement
+Z-axis - rotation
+Throttle - governer
+
+Xbox:
+
+A - Manuel Turn On Shooter
+B
+X
+Y
+
+Start 
+Back
+
+Right Bumper - Intake In (Togglable)
+Right Trigger - Intake Out (Not Togglable)
+
+Left Bumper
+Left Trigger
+
+Right X-axis
+Right Y-axis Positive - Raise Flapper Right
+Right Y-axis Negative - Lower Flapper Right
+
+Left X-axis
+Left Y-axis Positive - Raise Flapper Left
+Left Y-axis Negative - Lower Flapper Left

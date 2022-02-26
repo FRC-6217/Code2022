@@ -12,4 +12,26 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    public static final class DRIVE_TRAIN{
+        public static final int LEFT_L_MOTOR_ID = 40;
+        public static final int LEFT_F_MOTOR_ID = 41;
+        public static final int RIGHT_L_MOTOR_ID = 42;
+        public static final int RIGHT_F_MOTOR_ID = 43;
+
+        public static final double ENCODER_DISTANCE_CONVERSION_FACTOR = 0.044705;
+
+        public static final double FRAME_WIDTH = 0.6223; //meters
+
+        public static final double Z_AXIS_TELEOP_ADJUSTMENT = 2*Math.PI;
+    }
+
+    public static final class FLAPPER{
+        public static final double SPEED = 0.2;
+    }
+
+    public static final class INTAKE{
+        public static final double SPEED = 0.6;
+        public static final int MOTOR_ID = 21;
+    }
+}

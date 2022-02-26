@@ -4,17 +4,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.VelocityPID;
+import frc.robot.subsystems.PositionPID;
 
-public class PathfinderExample extends CommandBase {
-  /** Creates a new PathfinderExample. */
-  private DriveTrain m_driveTrain;
-  private DifferentialDriveVoltageConstraint m_volatageConstraint;
-  private int x;
-  public PathfinderExample() {
+public class JoystickShooter extends CommandBase {
+  /** Creates a new PIDCommand. */
+  private VelocityPID shooterSubsystem;
+  private XboxController xboxController;
+
+  public JoystickShooter(VelocityPID shooterSubsystem, XboxController xboxController) {
+    this.shooterSubsystem = shooterSubsystem;
+    this.xboxController = xboxController;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +27,14 @@ public class PathfinderExample extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (xboxController.getAButton()) {
+      shooterSubsystem.turnOn();
+    }
+    else {
+      shooterSubsystem.turnOff();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

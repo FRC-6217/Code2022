@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class CustomPID extends SubsystemBase {
+public class PositionPID extends SubsystemBase {
   private double p = 0;
   private double i = 0;
   private double d = 0;
@@ -26,14 +26,13 @@ public class CustomPID extends SubsystemBase {
   /** Creates a new CustomPID. */
 
 
-  public CustomPID(String name, int motorID) {
-    this.name = name;
-    this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
-    this.motorController.setInverted(true);
-    SmartDashboard.putNumber(name + " P Gain", 0);
-    SmartDashboard.putNumber(name + " I Gain", 0);
-    SmartDashboard.putNumber(name + " D Gain", 0);
-    SmartDashboard.putNumber(name + " Set Point", 0);
+  public PositionPID(String name, int motorID) {
+  this.name = name;
+  this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
+  SmartDashboard.putNumber(name + " P Gain", 0);
+  SmartDashboard.putNumber(name + " I Gain", 0);
+  SmartDashboard.putNumber(name + " D Gain", 0);
+  SmartDashboard.putNumber(name + " Set Point", 0);
   }
 
   public double calculate (double setPoint, double currentPoint) {
@@ -90,16 +89,18 @@ public class CustomPID extends SubsystemBase {
     motorState = false;
     sumError = 0;
     previousError = 0;
+    motorController.getEncoder().setPosition(0);
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Current POS", motorController.getEncoder().getPosition());
     SmartDashboard.putNumber("Current RPM", motorController.getEncoder().getVelocity());
-    SmartDashboard.putNumber("Current RPM Graph", motorController.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Current POS Graph", motorController.getEncoder().getPosition());
     updateConstants();
     if (motorState == true)
     {
-      double newMotorSpeed = calculate(setPoint, motorController.getEncoder().getVelocity());
+      double newMotorSpeed = calculate(setPoint, motorController.getEncoder().getPosition());
       if (newMotorSpeed >= 10.5)
       {
         newMotorSpeed = 10.5;
@@ -111,12 +112,6 @@ public class CustomPID extends SubsystemBase {
       }
 
       SmartDashboard.putNumber("Motor Speed", newMotorSpeed);
-      SmartDashboard.putNumber("Applied Output", motorController.getAppliedOutput());
-      SmartDashboard.putNumber("Current", motorController.getOutputCurrent());
-      SmartDashboard.putNumber("Bus Voltage", motorController.getBusVoltage());
-      SmartDashboard.putNumber("Sticky Faults", motorController.getStickyFaults());
-      
-      
 
       motorController.setVoltage(newMotorSpeed);
 

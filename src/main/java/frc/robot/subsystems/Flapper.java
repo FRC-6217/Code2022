@@ -9,45 +9,38 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxLimitSwitch;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.FLAPPER;
 
 public class Flapper extends SubsystemBase {
-  /** Creates a new Flapper. */
   private CANSparkMax f_flapper;
   private SparkMaxLimitSwitch f_forwardSwitch;
   private SparkMaxLimitSwitch f_reverseSwitch;
-  private static final double FLAPPER_SPEED = 0.6;
 
-  public Flapper(int id) {
-    f_flapper = new CANSparkMax(id, MotorType.kBrushless);
+  public Flapper(int motorID) {
+    //Initlize motor
+    f_flapper = new CANSparkMax(motorID, MotorType.kBrushless);
     
+    //Get the limit switch of the motor
     f_forwardSwitch = f_flapper.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     f_reverseSwitch = f_flapper.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   }
 
+  //Run the motors in the positive direction
   public void setForward(){
-    if(f_forwardSwitch.isPressed()){
-      f_flapper.set(FLAPPER_SPEED);
-    }
-    else{
-      f_flapper.set(0);
-    }
+      f_flapper.set(FLAPPER.SPEED);
   }
 
+  //Run the motors in the negative direction
   public void setReverse(){
-    if(f_reverseSwitch.isPressed()){
-      f_flapper.set(-FLAPPER_SPEED);
+      f_flapper.set(-FLAPPER.SPEED);
     }
-    else{
-      f_flapper.set(0);
-    }
-  }
 
+  //Turn the motors off
   public void setOff(){
     f_flapper.set(0);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

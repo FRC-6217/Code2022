@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
@@ -36,9 +38,6 @@ public class JoystickDrive extends CommandBase {
     double xSpeed = (Math.abs(joy.getRawAxis(1)) < 0.2) ? 0.0 : (joy.getRawAxis(1) * gov);
     double rot = (Math.abs(joy.getRawAxis(2)) < 0.2) ? 0.0 : (joy.getRawAxis(2) * gov);
 
-
-
-    SmartDashboard.putNumber("x", joy.getRawAxis(1));
     driveTrain.drive(xSpeed, rot);
   }
 

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Flapper;
 
@@ -26,10 +27,11 @@ public class JoystickFlapper extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xbox.getLeftY() > 0.5){
+    SmartDashboard.putNumber("joy y", xbox.getLeftY());
+    if(xbox.getLeftY() < -0.5){
       leftFlapper.setForward();
     }
-    else if (xbox.getLeftY() < -0.5){
+    else if (xbox.getLeftY() > 0.5){
       leftFlapper.setReverse();
     }
     else{
