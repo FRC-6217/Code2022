@@ -36,13 +36,13 @@ public class RobotContainer {
   
   private final Joystick driveStick = new Joystick(0);
   private final XboxController xboxStick = new XboxController(1);
-  
+  private final VelocityPID shooter = new VelocityPID("practice", 20);
   public RobotContainer() {
    /* 
     SingleMotorControl intake = new SingleMotorControl(28, MotorType.kBrushless, 1, .05);
     SingleMotorControl shooter = new SingleMotorControl(29, MotorType.kBrushless, 1, .05);
     */
-    VelocityPID shooter = new VelocityPID("practice", 20);
+
     // Configure the button bindings
     configureButtonBindings();
     

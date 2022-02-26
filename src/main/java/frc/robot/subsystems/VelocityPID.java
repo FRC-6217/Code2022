@@ -30,10 +30,12 @@ public class VelocityPID extends SubsystemBase {
     this.name = name;
     this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
     this.motorController.setInverted(true);
-    SmartDashboard.putNumber(name + " P Gain", 0);
-    SmartDashboard.putNumber(name + " I Gain", 0);
+    // set PID defaults
+    // @todo move to constansts
+    SmartDashboard.putNumber(name + " P Gain",0.023000);
+    SmartDashboard.putNumber(name + " I Gain", 0.000040);
     SmartDashboard.putNumber(name + " D Gain", 0);
-    SmartDashboard.putNumber(name + " Set Point", 0);
+    SmartDashboard.putNumber(name + " Set Point", 2250.000000);
   }
 
   private double calculate(double setPoint, double currentPoint) {
