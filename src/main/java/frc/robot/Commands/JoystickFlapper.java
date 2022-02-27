@@ -8,15 +8,19 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Flapper;
+import frc.robot.subsystems.Intake;
 
 public class JoystickFlapper extends CommandBase {
   /** Creates a new JoystickFlapper. */
   private Flapper leftFlapper;
+  private Intake intake;
   private XboxController xbox;
-  public JoystickFlapper(Flapper leftFlapper, XboxController xbox) {
+  public JoystickFlapper(Flapper leftFlapper, Intake intake, XboxController xbox) {
     this.leftFlapper = leftFlapper;
     this.xbox = xbox;
-    addRequirements(leftFlapper);
+    this.intake = intake;
+    addRequirements(this.leftFlapper);
+    addRequirements(this.intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,12 +34,14 @@ public class JoystickFlapper extends CommandBase {
     SmartDashboard.putNumber("joy y", xbox.getLeftY());
     if(xbox.getLeftY() < -0.5){
       leftFlapper.setForward();
+      intake.setForward();
     }
-    else if (xbox.getLeftY() > 0.5){
-      leftFlapper.setReverse();
-    }
+    // else if (xbox.getLeftY() > 0.5){
+    //   leftFlapper.setReverse();
+    // }
     else{
       leftFlapper.setOff();
+      intake.setOff();
     }
   }
 

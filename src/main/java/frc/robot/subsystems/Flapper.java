@@ -13,16 +13,11 @@ import frc.robot.Constants.FLAPPER;
 
 public class Flapper extends SubsystemBase {
   private CANSparkMax f_flapper;
-  private SparkMaxLimitSwitch f_forwardSwitch;
-  private SparkMaxLimitSwitch f_reverseSwitch;
 
   public Flapper(int motorID) {
     //Initlize motor
     f_flapper = new CANSparkMax(motorID, MotorType.kBrushless);
-    
-    //Get the limit switch of the motor
-    f_forwardSwitch = f_flapper.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-    f_reverseSwitch = f_flapper.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    f_flapper.setInverted(true);
   }
 
   //Run the motors in the positive direction

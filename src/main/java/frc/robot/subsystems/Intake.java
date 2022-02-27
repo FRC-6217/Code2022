@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.INTAKE;
 
@@ -14,12 +15,12 @@ public class Intake extends SubsystemBase {
   private CANSparkMax i_IntakeMotor;
   public Intake() {
     //instantiate motor 
-    i_IntakeMotor = new CANSparkMax(INTAKE.MOTOR_ID, MotorType.kBrushless);
+    this.i_IntakeMotor = new CANSparkMax(INTAKE.MOTOR_ID, MotorType.kBrushless);
   }
 
   //Run motor in the postive direction
   public void setForward() {
-    i_IntakeMotor.set(INTAKE.SPEED);
+    i_IntakeMotor.set(0.6);
   }
   
   //Run motor in the negative direction

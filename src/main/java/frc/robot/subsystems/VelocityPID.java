@@ -92,6 +92,7 @@ public class VelocityPID extends SubsystemBase {
     motorState = false;
     sumError = 0;
     previousError = 0;
+    motorController.setVoltage(0);
   }
 
   @Override

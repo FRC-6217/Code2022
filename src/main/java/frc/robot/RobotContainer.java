@@ -32,7 +32,7 @@ public class RobotContainer {
   
   private final DriveTrain driveTrain = new DriveTrain();
   private final Intake intake = new Intake();
-  private final Flapper left_flapper = new Flapper(22);
+  private final Flapper left_flapper = new Flapper(23);
   
   private final Joystick driveStick = new Joystick(0);
   private final XboxController xboxStick = new XboxController(1);
@@ -48,8 +48,8 @@ public class RobotContainer {
     
     CommandScheduler.getInstance().setDefaultCommand(shooter, new JoystickShooter(shooter, xboxStick));
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
-    CommandScheduler.getInstance().setDefaultCommand(intake , new JoystickIntake(intake, xboxStick));
-    CommandScheduler.getInstance().setDefaultCommand(left_flapper , new JoystickFlapper(left_flapper, xboxStick));
+    //CommandScheduler.getInstance().setDefaultCommand(intake , new JoystickIntake(intake, xboxStick));
+    CommandScheduler.getInstance().setDefaultCommand(left_flapper, new JoystickFlapper(left_flapper, intake, xboxStick));
     
   }
 

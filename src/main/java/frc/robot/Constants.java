@@ -23,7 +23,7 @@ public final class Constants {
 
         public static final double FRAME_WIDTH = 0.6223; //meters
 
-        public static final double Z_AXIS_TELEOP_ADJUSTMENT = 2*Math.PI;
+        public static final double Z_AXIS_TELEOP_ADJUSTMENT = 2;
     }
 
     public static final class FLAPPER{

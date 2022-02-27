@@ -35,8 +35,8 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
     double gov = (1-joy.getRawAxis(3))/2;
-    double xSpeed = (Math.abs(joy.getRawAxis(1)) < 0.2) ? 0.0 : (joy.getRawAxis(1) * gov);
-    double rot = (Math.abs(joy.getRawAxis(2)) < 0.2) ? 0.0 : (joy.getRawAxis(2) * gov);
+    double xSpeed = (Math.abs(joy.getRawAxis(1)) < 0.3) ? 0.0 : (joy.getRawAxis(1) * gov);
+    double rot = (Math.abs(joy.getRawAxis(2)) < 0.3) ? 0.0 : (joy.getRawAxis(2) * gov);
 
     driveTrain.drive(xSpeed, rot);
   }
