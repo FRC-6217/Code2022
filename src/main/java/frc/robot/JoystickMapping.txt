@@ -6,10 +6,10 @@ Throttle - governer
 
 Xbox:
 
-A - Manuel Turn On Shooter
-B
-X
-Y
+A - Total Flap
+B - Right Flap
+X - Left Flap
+Y - Spinner (Togglable)
 
 Start 
 Back
@@ -21,9 +21,9 @@ Left Bumper
 Left Trigger
 
 Right X-axis
-Right Y-axis Positive - Raise Flapper Right
-Right Y-axis Negative - Lower Flapper Right
+Right Y-axis Positive -
+Right Y-axis Negative -
 
 Left X-axis
-Left Y-axis Positive - Raise Flapper Left
-Left Y-axis Negative - Lower Flapper Left
+Left Y-axis Positive -
+Left Y-axis Negative -

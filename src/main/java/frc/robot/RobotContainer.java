@@ -18,6 +18,7 @@ import frc.robot.subsystems.Flapper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.JoystickBallHandeler;
 import frc.robot.commands.JoystickFlapper;
 import frc.robot.commands.JoystickIntake;
 import frc.robot.commands.JoystickShooter;
@@ -32,8 +33,8 @@ public class RobotContainer {
   
   private final DriveTrain driveTrain = new DriveTrain();
   private final Intake intake = new Intake();
-  private final Flapper left_flapper = new Flapper(23);
-  
+  //private final Flapper left_flapper = new Flapper(23);
+  private final PositionPID leftflapper = new PositionPID("leftflapper", 23);
   private final Joystick driveStick = new Joystick(0);
   private final XboxController xboxStick = new XboxController(1);
   private final VelocityPID shooter = new VelocityPID("practice", 20);
@@ -49,8 +50,8 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(shooter, new JoystickShooter(shooter, xboxStick));
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
     //CommandScheduler.getInstance().setDefaultCommand(intake , new JoystickIntake(intake, xboxStick));
-    CommandScheduler.getInstance().setDefaultCommand(left_flapper, new JoystickFlapper(left_flapper, intake, xboxStick));
-    
+   // CommandScheduler.getInstance().setDefaultCommand(left_flapper, new JoystickFlapper(left_flapper, intake, xboxStick));
+    CommandScheduler.getInstance().setDefaultCommand(leftflapper, new JoystickBallHandeler(leftFlapper, intake, xboxStick));
   }
 
   /**
