@@ -34,4 +34,19 @@ public final class Constants {
         public static final double SPEED = 0.6;
         public static final int MOTOR_ID = 21;
     }
+
+    public static final class HANGER{
+        public static final int INIT_BUTTON_1 = 1;
+        public static final int INIT_BUTTON_2 = 1;
+
+        public static final int EXTEND_BUTTON = 1;
+        public static final int WINCH_BUTTON = 1;
+
+        public static final double EXTENDER_MAX_POSITION = 1;
+        public static final double EXTENDER_MIN_POSITION = 1;
+        public static final double EXTENDER_HOOK_POSITION = 1;
+
+        public static final double WINCH_MAX_POSITION = 1;
+        public static final double WINCH_MIN_POSITION = 1;
+    }
 }
