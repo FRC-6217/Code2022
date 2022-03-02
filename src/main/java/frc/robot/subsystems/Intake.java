@@ -12,13 +12,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.INTAKE;
 
 public class Intake extends SubsystemBase {
-  private CANSparkMax i_IntakeMotor;
-  enum MotorState {
+  public enum MotorState {
     OFF,
     REVERSE,
     SLOW,
     FAST
   }
+
+  private CANSparkMax i_IntakeMotor;
   private MotorState motorState = MotorState.OFF;
   public Intake() {
     //instantiate motor 
@@ -31,19 +32,24 @@ public class Intake extends SubsystemBase {
     i_IntakeMotor.set(0.6);
   }
   
-  public void setForwardSlow() {
+  public void setSlow() {
     motorState = MotorState.SLOW;
     i_IntakeMotor.set(.2);
   }
   //Run motor in the negative direction
-  public void setBackward() {
+  public void setReverse() {
     motorState = MotorState.REVERSE;
     i_IntakeMotor.set(-INTAKE.SPEED);
   }
   
   //Turn motor off
   public void setOff() {
+    motorState = MotorState.OFF;
     i_IntakeMotor.set(0);
+  }
+
+  public MotorState getMotorState(){
+    return motorState;
   }
 
   @Override

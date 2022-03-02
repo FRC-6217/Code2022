@@ -26,13 +26,16 @@ public class PositionPID extends SubsystemBase {
   /** Creates a new CustomPID. */
 
 
-  public PositionPID(String name, int motorID) {
-  this.name = name;
-  this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
-  SmartDashboard.putNumber(name + " P Gain", 0);
-  SmartDashboard.putNumber(name + " I Gain", 0);
-  SmartDashboard.putNumber(name + " D Gain", 0);
-  SmartDashboard.putNumber(name + " Set Point", 0);
+  public PositionPID(String name, int motorID, double p, double i, double d) {
+    this.p = p;
+    this.i = i;
+    this.d = d;
+    this.name = name;
+    this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
+    SmartDashboard.putNumber(name + " P Gain", p);
+    SmartDashboard.putNumber(name + " I Gain", i);
+    SmartDashboard.putNumber(name + " D Gain", d);
+    SmartDashboard.putNumber(name + " Set Point", 0);
   }
 
   public double calculate (double setPoint, double currentPoint) {

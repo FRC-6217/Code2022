@@ -35,28 +35,8 @@ public class JoystickBallHandeler extends CommandBase {
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  private void executeIntaker(){
-    if(xbox.getRightBumperPressed()){
-      isIntakeOn = !isIntakeOn;
-    }
-
-    //If the xbox trigger is press, reverse
-    if (xbox.getRightTriggerAxis() > 0.5){
-      intaker.setBackward();
-      isIntakeOn = false;//TODO Figuare this out
-    }
-    //If isOn then forward
-    else if(isIntakeOn){
-      intaker.setForward();
-    }
-    //Else off
-    else {
-      intaker.setOff();
-    }
-  }
   public void execute() {
-    boolean isSpinnerUpToSpeed = false;
+    boolean isSpinnerUpToSpeed = spinner.isAtSetpoint();
 
 
     boolean isUserToggledSpinner = xbox.getYButtonPressed();
@@ -71,13 +51,10 @@ public class JoystickBallHandeler extends CommandBase {
       isUserFlappingLeft = false;
       isUserFlappingRight = false;
     }
-    if (isUserFlappingRight || isUserFlappingLeft){
-      isUserIntakingReverse = false;
-    }
 
 
     //Do motor stuff
-
+    //Spinner motor stuff
     if (isUserToggledSpinner){
       if(spinner.getMotorState()){
         spinner.turnOff();
@@ -86,9 +63,43 @@ public class JoystickBallHandeler extends CommandBase {
         spinner.turnOn();
       }
     }
-    
 
-    executeIntaker();
+    //Intaker motor stuff
+    if (isUserFlappingRight || isUserFlappingLeft){
+      intaker.setSlow();
+    }
+    else if (intaker.getMotorState() == Intake.MotorState.SLOW){
+      intaker.setOff();
+    }
+    else if (isUserIntakingReverse){
+      intaker.setReverse();
+    }
+    else if(intaker.getMotorState() == Intake.MotorState.REVERSE){
+      intaker.setOff();
+    }
+    else if (isUserToggleIntakerForward){
+      if(intaker.getMotorState() == Intake.MotorState.FAST){
+        intaker.setOff();
+      }
+      else{
+        intaker.setForward();
+      }
+    }
+
+    //Flapper motor stuff
+    if(isUserFlappingRight){
+      rightFlapper.turnOn();
+    }
+    else{
+      rightFlapper.turnOff();
+    }
+
+    if(isUserFlappingLeft){
+      leftFlapper.turnOn();
+    }
+    else{
+      leftFlapper.turnOff();
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -86,17 +86,20 @@ public class VelocityPID extends SubsystemBase {
 
   public void turnOn() {
     motorState = true;
-    }
+  }
 
   public void turnOff() {
     motorState = false;
     sumError = 0;
     previousError = 0;
-    motorController.setVoltage(0);
   }
   
   public boolean getMotorState(){
     return motorState;
+  }
+
+  public boolean isAtSetpoint(){
+    return Math.abs(motorController.getEncoder().getVelocity() - setPoint) < setPoint * 0.05;
   }
 
   @Override

@@ -13,18 +13,23 @@ public class SingleMotorControl extends SubsystemBase {
   private CANSparkMax myMotorController;
   private double myMotorSpeed = 0.0;
   private boolean myMotorState = false;
-  private int myDirection;
   private double myPercentSpeedChange;
   /** Creates a new SingleMotorControl. */
-  public SingleMotorControl(int motorID, MotorType motorType, int direction, double percentSpeedChange) {
+  public SingleMotorControl(int motorID, MotorType motorType, boolean isInverted, double percentSpeedChange, double startPercentSpeed) {
     myMotorController = new CANSparkMax(motorID, motorType);
-    myDirection = direction;
+    myMotorController.setInverted(isInverted);
+    myMotorSpeed = startPercentSpeed;
     myPercentSpeedChange = percentSpeedChange;
   }
 
-  public void turnOn() {
+  public void turnOnForward() {
     myMotorState = true;
-    myMotorController.set(myMotorSpeed * myDirection);
+    myMotorController.set(myMotorSpeed);
+  }
+
+  public void turnOnReverse() {
+    myMotorState = true;
+    myMotorController.set(-myMotorSpeed);
   }
 
   public void turnOff() {
@@ -36,7 +41,7 @@ public class SingleMotorControl extends SubsystemBase {
     if (1 >= myMotorSpeed) {
       myMotorSpeed = myPercentSpeedChange;
       if (true == myMotorState) {
-        myMotorController.set(myMotorSpeed * myDirection);
+        myMotorController.set(myMotorSpeed);
       }
   }
   }
@@ -45,15 +50,30 @@ public class SingleMotorControl extends SubsystemBase {
     if (0 <= myMotorSpeed) {
       myMotorSpeed -= myPercentSpeedChange;
       if (true == myMotorState) {
-        myMotorController.set(myMotorSpeed * myDirection);
+        myMotorController.set(myMotorSpeed);
       }
-  }
-  }
-
-  public void changeMotorDirection() {
-    myDirection *= -1;
+    }
   }
 
+  //Throws bad stuff if brushed. 
+  public double getPostion(){
+    if(myMotorController.getMotorType() == MotorType.kBrushed){
+      return Double.NaN;
+    }
+    return myMotorController.getEncoder().getPosition();
+  }
+  
+  //Throws bad stuff if brushed.
+  public double getVelocity(){
+    if(myMotorController.getMotorType() == MotorType.kBrushed){
+      return Double.NaN;
+    }
+    return myMotorController.getEncoder().getVelocity();
+  }
+
+  public double getPercent(){
+    return myMotorSpeed;
+  }
 
   @Override
   public void periodic() {
