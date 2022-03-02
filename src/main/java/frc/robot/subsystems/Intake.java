@@ -13,6 +13,13 @@ import frc.robot.Constants.INTAKE;
 
 public class Intake extends SubsystemBase {
   private CANSparkMax i_IntakeMotor;
+  enum MotorState {
+    OFF,
+    REVERSE,
+    SLOW,
+    FAST
+  }
+  private MotorState motorState = MotorState.OFF;
   public Intake() {
     //instantiate motor 
     this.i_IntakeMotor = new CANSparkMax(INTAKE.MOTOR_ID, MotorType.kBrushless);
@@ -20,11 +27,17 @@ public class Intake extends SubsystemBase {
 
   //Run motor in the postive direction
   public void setForward() {
+    motorState = MotorState.FAST;
     i_IntakeMotor.set(0.6);
   }
   
+  public void setForwardSlow() {
+    motorState = MotorState.SLOW;
+    i_IntakeMotor.set(.2);
+  }
   //Run motor in the negative direction
   public void setBackward() {
+    motorState = MotorState.REVERSE;
     i_IntakeMotor.set(-INTAKE.SPEED);
   }
   
