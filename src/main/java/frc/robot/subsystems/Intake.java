@@ -29,12 +29,12 @@ public class Intake extends SubsystemBase {
   //Run motor in the postive direction
   public void setForward() {
     motorState = MotorState.FAST;
-    i_IntakeMotor.set(0.6);
+    i_IntakeMotor.set(INTAKE.SPEED);
   }
   
   public void setSlow() {
     motorState = MotorState.SLOW;
-    i_IntakeMotor.set(.2);
+    i_IntakeMotor.set(INTAKE.SPEED/2);
   }
   //Run motor in the negative direction
   public void setReverse() {
@@ -50,6 +50,10 @@ public class Intake extends SubsystemBase {
 
   public MotorState getMotorState(){
     return motorState;
+  }
+
+  public double getPostion(){
+    return i_IntakeMotor.getEncoder().getPosition();
   }
 
   @Override

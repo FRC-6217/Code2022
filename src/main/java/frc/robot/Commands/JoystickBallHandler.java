@@ -9,16 +9,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.PositionPID;
+import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.subsystems.VelocityPID;
 
-public class JoystickBallHandeler extends CommandBase {
+public class JoystickBallHandler extends CommandBase {
   /** Creates a new JoystickFLapperPID. */
-  private PositionPID leftFlapper,rightFlapper;
+  private SingleMotorControl leftFlapper,rightFlapper;
   private VelocityPID spinner;
   private Intake intaker;
   private XboxController xbox;
   boolean isIntakeOn = false;
-  public JoystickBallHandeler(PositionPID leftFlapper,PositionPID rightFlapper,VelocityPID spinner, Intake intaker, XboxController xbox){
+  public JoystickBallHandler(SingleMotorControl leftFlapper, SingleMotorControl rightFlapper,VelocityPID spinner, Intake intaker, XboxController xbox){
     this.leftFlapper = leftFlapper;
     this.xbox = xbox;
     this.intaker = intaker;
@@ -88,14 +89,14 @@ public class JoystickBallHandeler extends CommandBase {
 
     //Flapper motor stuff
     if(isUserFlappingRight){
-      rightFlapper.turnOn();
+      rightFlapper.turnOnForward();
     }
     else{
       rightFlapper.turnOff();
     }
 
     if(isUserFlappingLeft){
-      leftFlapper.turnOn();
+      leftFlapper.turnOnForward();
     }
     else{
       leftFlapper.turnOff();

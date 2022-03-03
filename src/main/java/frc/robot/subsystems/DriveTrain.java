@@ -4,17 +4,19 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.Pigeon2Configuration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DRIVE_TRAIN;
@@ -85,18 +87,21 @@ public class DriveTrain extends SubsystemBase {
     
     //Setup the Gyro
     // gyro = new Pigeon2(10);
-    Pigeon2Configuration config = new Pigeon2Configuration();
+    // Pigeon2Configuration config = new Pigeon2Configuration();
 
     // set mount pose as rolled 90 degrees counter-clockwise
-    config.MountPoseYaw = 0;
-    config.MountPosePitch = 0;
-    config.MountPoseRoll = 90;
+    // config.MountPoseYaw = 0;
+    // config.MountPosePitch = 0;
+    // config.MountPoseRoll = 90;
     // gyro.configAllSettings(config);
 
     //Motion tracking and trajetory code for auto.
     dt_kinematics = new DifferentialDriveKinematics(0.6223);
     //dt_feedforward = new SimpleMotorFeedforward(0.12923, 2.7944, 0.32061);
     // dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
+
+    CameraServer.startAutomaticCapture();
+
 
   }
 

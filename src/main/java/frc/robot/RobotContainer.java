@@ -18,10 +18,10 @@ import frc.robot.subsystems.Flapper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.commands.JoystickDrive;
-import frc.robot.commands.bad.JoystickFlapper;
-import frc.robot.commands.bad.JoystickIntake;
+import frc.robot.commands.JoystickHanger;
 import frc.robot.commands.bad.JoystickShooter;
-import frc.robot.commands.JoystickBallHandeler;
+import frc.robot.commands.AutoDriveWeekZero;
+import frc.robot.commands.JoystickBallHandler;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -34,18 +34,24 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
   private final Intake intake = new Intake();
   //private final Flapper left_flapper = new Flapper(23);
-  private final PositionPID leftFlapper = new PositionPID("leftFlapper", 23, 0, 0, 0);
-  private final PositionPID rightFlapper = new PositionPID("rightFlapper", 22, 0, 0, 0);
+  private final SingleMotorControl leftFlapper = new SingleMotorControl(23, MotorType.kBrushless, true, 0.1, 0.2);
+  private final SingleMotorControl rightFlapper = new SingleMotorControl(22, MotorType.kBrushless, false, 0.1, 0.2);
+  private final VelocityPID spinner = new VelocityPID("spinner", 20);
+  // private final SingleMotorControl extender = new SingleMotorControl(10, MotorType.kBrushless, false, 0.1, 0.5);
+  // private final SingleMotorControl winch = new SingleMotorControl(11, MotorType.kBrushless, false, 0.1, 0.5);
+
+  
   private final Joystick driveStick = new Joystick(0);
   private final XboxController xbox = new XboxController(1);
-  private final VelocityPID spinner = new VelocityPID("spinner", 20);
   public RobotContainer() {
 
     // Configure the button bindings
     configureButtonBindings();
     
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
-    CommandScheduler.getInstance().setDefaultCommand(spinner, new JoystickBallHandeler(leftFlapper, rightFlapper, spinner, intake, xbox));
+
+    CommandScheduler.getInstance().setDefaultCommand(spinner, new JoystickBallHandler(leftFlapper, rightFlapper, spinner, intake, xbox));
+    //CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickHanger(extender, winch, driveStick));
   }
 
   /**
@@ -62,7 +68,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command m_autoCommand = null;
+    Command m_autoCommand = null;//new AutoDriveWeekZero(driveTrain);
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }

@@ -51,10 +51,10 @@ public class JoystickHanger extends CommandBase {
   public void execute() {
     boolean isUserInit = joystick.getRawButton(Constants.HANGER.INIT_BUTTON_1) && joystick.getRawButton(Constants.HANGER.INIT_BUTTON_2);
     boolean isUserExtending = joystick.getRawButton(Constants.HANGER.EXTEND_BUTTON);
-    boolean isUserDeextending = false;
-    boolean isUserHooking = false;
-    boolean isUserHanging = false;
-    boolean isUserDehanging = false;
+    boolean isUserDeextending = joystick.getRawButton(Constants.HANGER.DEEXTEND_BUTTON);
+    boolean isUserHooking = joystick.getRawButton(Constants.HANGER.HOOKING_BUTTON);
+    boolean isUserHanging = joystick.getRawButton(Constants.HANGER.HANG_BUTTON);
+    boolean isUserDehanging = joystick.getRawButton(Constants.HANGER.DEHANG_BUTTON);
 
     switch(currentState){
       case TELE:
