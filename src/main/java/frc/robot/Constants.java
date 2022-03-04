@@ -31,7 +31,7 @@ public final class Constants {
     }
 
     public static final class INTAKE{
-        public static final double SPEED = 0.6;
+        public static final double SPEED = 0.8;
         public static final int MOTOR_ID = 24;
     }
 
@@ -39,16 +39,16 @@ public final class Constants {
         public static final int INIT_BUTTON_1 = 1;
         public static final int INIT_BUTTON_2 = 1;
 
-        public static final int EXTEND_BUTTON = 1;
-        public static final int DEEXTEND_BUTTON = 1;
-        public static final int HANG_BUTTON = 1;
-        public static final int DEHANG_BUTTON = 1;
-        public static final int HOOKING_BUTTON = 1;
+        public static final int EXTEND_BUTTON = 7;
+        public static final int DEEXTEND_BUTTON = 8;
+        public static final int HANG_BUTTON = 9;
+        public static final int DEHANG_BUTTON = 10;
+        public static final int HOOKING_BUTTON = 11;
 
         public static final int WINCH_INDEPENDENT_UP_BUTTON = 1;
         public static final int WINCH_INDEPENDENT_DOWN_BUTTON = 1;
-        public static final int EXTEND_INDEPENDENT_UP_BUTTON = 1;
-        public static final int EXTEND_INDEPENDENT_DOWN_BUTTON = 1;
+        public static final int EXTEND_INDEPENDENT_UP_BUTTON = 12;
+        public static final int EXTEND_INDEPENDENT_DOWN_BUTTON = 11;
 
         public static final double EXTENDER_MAX_POSITION = 1;
         public static final double EXTENDER_MIN_POSITION = 1;
@@ -56,5 +56,12 @@ public final class Constants {
 
         public static final double WINCH_MAX_POSITION = 1;
         public static final double WINCH_MIN_POSITION = 1;
+        
+        public static final int WINCH_ID = 10;
+        public static final int EXTENDER_ID = 11;
+    }
+
+    public static final class PID{
+        public static final double MAX_VOLTAGE = 8;
     }
 }

@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class VelocityPID extends SubsystemBase {
@@ -31,11 +32,11 @@ public class VelocityPID extends SubsystemBase {
     this.motorController = new CANSparkMax(motorID, MotorType.kBrushless);
     this.motorController.setInverted(true);
     // set PID defaults
-    // @todo move to constansts
+    // TODO move to constansts
     SmartDashboard.putNumber(name + " P Gain",0.023000);
     SmartDashboard.putNumber(name + " I Gain", 0.000040);
     SmartDashboard.putNumber(name + " D Gain", 0);
-    SmartDashboard.putNumber(name + " Set Point", 2250.000000);
+    SmartDashboard.putNumber(name + " Set Point", 1800.000000);
   }
 
   private double calculate(double setPoint, double currentPoint) {
@@ -46,10 +47,6 @@ public class VelocityPID extends SubsystemBase {
         
     sumError += error;
     double iE = i * sumError * dT;
-    if (Math.abs(error) <= deadZone)
-    {
-
-    }
 
     SmartDashboard.putNumber("Error", error);
     SmartDashboard.putNumber("pE", pE);
@@ -110,14 +107,14 @@ public class VelocityPID extends SubsystemBase {
     if (motorState == true)
     {
       double newMotorSpeed = calculate(setPoint, motorController.getEncoder().getVelocity());
-      if (newMotorSpeed >= 10.5)
+      if (newMotorSpeed >= Constants.PID.MAX_VOLTAGE)
       {
-        newMotorSpeed = 10.5;
+        newMotorSpeed = Constants.PID.MAX_VOLTAGE;
       }
 
-      else if(newMotorSpeed <= -10.5)
+      else if(newMotorSpeed <= -Constants.PID.MAX_VOLTAGE)
       {
-        newMotorSpeed = -10.5;
+        newMotorSpeed = -Constants.PID.MAX_VOLTAGE;
       }
 
       SmartDashboard.putNumber("Motor Speed", newMotorSpeed);

@@ -49,7 +49,7 @@ public class JoystickHanger extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean isUserInit = joystick.getRawButton(Constants.HANGER.INIT_BUTTON_1) && joystick.getRawButton(Constants.HANGER.INIT_BUTTON_2);
+    boolean isUserInit = true;//joystick.getRawButton(Constants.HANGER.INIT_BUTTON_1) && joystick.getRawButton(Constants.HANGER.INIT_BUTTON_2);
     boolean isUserExtending = joystick.getRawButton(Constants.HANGER.EXTEND_BUTTON);
     boolean isUserDeextending = joystick.getRawButton(Constants.HANGER.DEEXTEND_BUTTON);
     boolean isUserHooking = joystick.getRawButton(Constants.HANGER.HOOKING_BUTTON);

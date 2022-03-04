@@ -48,12 +48,12 @@ public class JoystickBallHandler extends CommandBase {
 
     //decide inputs priorities
 
-    if (!isSpinnerUpToSpeed){
-      isUserFlappingLeft = false;
-      isUserFlappingRight = false;
-    }
+    // if (!isSpinnerUpToSpeed){
+    //   isUserFlappingLeft = false;
+    //   isUserFlappingRight = false;
+    // }
 
-
+      SmartDashboard.putBoolean("Spinner", isSpinnerUpToSpeed);
     //Do motor stuff
     //Spinner motor stuff
     if (isUserToggledSpinner){

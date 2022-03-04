@@ -32,15 +32,17 @@ public class JoystickExtender extends CommandBase {
   public void execute() {
     if(joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_UP_BUTTON)){
       extender.turnOnForward();
+      System.out.println("Yay");
     }
     else if (joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_DOWN_BUTTON)){
       extender.turnOnReverse();
+      System.out.println("Yay But Backwards");
     }
     else {
       extender.turnOff();
+      System.out.println("Off");
     }
-    
-    SmartDashboard.putNumber("Extender Encoder position", extender.getPostion());
+    SmartDashboard.putBoolean("Button", joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_UP_BUTTON));
   }
 
   // Called once the command ends or is interrupted.

@@ -20,6 +20,7 @@ public class SingleMotorControl extends SubsystemBase {
     myMotorController.setInverted(isInverted);
     myMotorSpeed = startPercentSpeed;
     myPercentSpeedChange = percentSpeedChange;
+    resetEncoders();
   }
 
   public void turnOnForward() {
@@ -54,7 +55,9 @@ public class SingleMotorControl extends SubsystemBase {
       }
     }
   }
-
+  public void resetEncoders(){
+    myMotorController.getEncoder().setPosition(0);
+  }
   //Throws bad stuff if brushed. 
   public double getPostion(){
     if(myMotorController.getMotorType() == MotorType.kBrushed){

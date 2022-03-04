@@ -19,7 +19,9 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.JoystickHanger;
+import frc.robot.commands.bad.JoystickExtender;
 import frc.robot.commands.bad.JoystickShooter;
+import frc.robot.commands.bad.JoystickWinch;
 import frc.robot.commands.AutoDriveWeekZero;
 import frc.robot.commands.JoystickBallHandler;
 /**
@@ -35,9 +37,9 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   //private final Flapper left_flapper = new Flapper(23);
   private final SingleMotorControl leftFlapper = new SingleMotorControl(23, MotorType.kBrushless, true, 0.1, 0.2);
-  private final SingleMotorControl rightFlapper = new SingleMotorControl(22, MotorType.kBrushless, false, 0.1, 0.2);
+  private final SingleMotorControl rightFlapper = new SingleMotorControl(22, MotorType.kBrushless, false, 0.1, 0.4);
   private final VelocityPID spinner = new VelocityPID("spinner", 20);
-  // private final SingleMotorControl extender = new SingleMotorControl(10, MotorType.kBrushless, false, 0.1, 0.5);
+  // private final SingleMotorControl extender = new SingleMotorControl(Constants.HANGER.EXTENDER_ID, MotorType.kBrushless, false, 0.1, 0.4);
   // private final SingleMotorControl winch = new SingleMotorControl(11, MotorType.kBrushless, false, 0.1, 0.5);
 
   
@@ -51,6 +53,8 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
 
     CommandScheduler.getInstance().setDefaultCommand(spinner, new JoystickBallHandler(leftFlapper, rightFlapper, spinner, intake, xbox));
+    // CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickExtender(extender, driveStick));
+    
     //CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickHanger(extender, winch, driveStick));
   }
 
@@ -68,7 +72,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command m_autoCommand = null;//new AutoDriveWeekZero(driveTrain);
+    Command m_autoCommand = new AutoDriveWeekZero(driveTrain);
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
