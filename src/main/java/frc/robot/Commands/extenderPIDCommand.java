@@ -2,23 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.bad;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.SingleMotorControl;
+import frc.robot.Constants.HANGER;
+import frc.robot.subsystems.PositionPID;
 
-public class JoystickWinch extends CommandBase {
-  /** Creates a new JoystickWinch. */
-  private SingleMotorControl winch;
-  private Joystick joystick;
-
-  public JoystickWinch(SingleMotorControl winch, Joystick joystick) {
-    this.winch = winch;
-    this.joystick = joystick;
-    addRequirements(this.winch);
+public class extenderPIDCommand extends CommandBase {
+  private PositionPID p;
+  private Joystick j;
+  /** Creates a new extenderPIDCommand. */
+  public extenderPIDCommand(PositionPID extender, Joystick j) {
+    addRequirements(extender);
+    this.p = extender;
+    this.j = j;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,16 +27,14 @@ public class JoystickWinch extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(joystick.getRawButton(Constants.HANGER.WINCH_INDEPENDENT_UP_BUTTON)){
-      winch.turnOnForward();
-    }
-    else if(joystick.getRawButton(Constants.HANGER.WINCH_INDEPENDENT_DOWN_BUTTON)){
-      winch.turnOnReverse();
+    if (j.getRawButton(HANGER.EXTEND_BUTTON)) {
+      p.turnOn();
+      System.out.println("it's on");
     }
     else {
-      winch.turnOff();
+      p.turnOff();
+      System.out.println("it's off");
     }
-    SmartDashboard.putNumber("Winch Encoder position", winch.getPostion());
   }
 
   // Called once the command ends or is interrupted.

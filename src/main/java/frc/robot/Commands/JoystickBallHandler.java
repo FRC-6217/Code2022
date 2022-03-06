@@ -101,6 +101,16 @@ public class JoystickBallHandler extends CommandBase {
     else{
       leftFlapper.turnOff();
     }
+
+    if(xbox.getLeftBumperPressed()){
+      spinner.increaseSetpoint();
+    }
+    else if (xbox.getStartButtonPressed()){
+      spinner.decreaseSetpoint();
+    }
+    else if (xbox.getBackButton()){
+      spinner.clearSpinnerOffset();
+    }
   }
 
   // Called once the command ends or is interrupted.

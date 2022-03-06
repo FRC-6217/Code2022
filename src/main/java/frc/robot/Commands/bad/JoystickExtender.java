@@ -16,10 +16,14 @@ public class JoystickExtender extends CommandBase {
   /** Creates a new JoystickExtender. */
   private SingleMotorControl extender;
   private Joystick joystick;
+  private double maxEncoder;
+  private double minEncoder;
   public JoystickExtender(SingleMotorControl extender, Joystick joystick) {
     this.extender = extender;
     this.joystick = joystick;
     addRequirements(this.extender);
+    SmartDashboard.putNumber("Max Extender Encoder", 10);
+    SmartDashboard.putNumber("Min Extender Encoder", 0);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,19 +34,19 @@ public class JoystickExtender extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_UP_BUTTON)){
+    maxEncoder = SmartDashboard.getNumber("Max Extender Encoder", 10);
+    minEncoder = SmartDashboard.getNumber("Min Extender Encoder", 0);
+    if(joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_UP_BUTTON)){// && -extender.getPostion() < maxEncoder){
       extender.turnOnForward();
-      System.out.println("Yay");
     }
-    else if (joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_DOWN_BUTTON)){
+    else if (joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_DOWN_BUTTON)){ //&& -extender.getPostion() > minEncoder){
       extender.turnOnReverse();
-      System.out.println("Yay But Backwards");
     }
     else {
       extender.turnOff();
-      System.out.println("Off");
     }
     SmartDashboard.putBoolean("Button", joystick.getRawButton(Constants.HANGER.EXTEND_INDEPENDENT_UP_BUTTON));
+    SmartDashboard.putNumber("Extender Encoder", extender.getPostion());
   }
 
   // Called once the command ends or is interrupted.

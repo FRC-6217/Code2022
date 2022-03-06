@@ -39,6 +39,6 @@ public class AutoDriveWeekZero extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return -driveTrain.getLeftEncoderPosition() > 1.5;
+    return -driveTrain.getLeftEncoderPosition() > 3;
   }
 }

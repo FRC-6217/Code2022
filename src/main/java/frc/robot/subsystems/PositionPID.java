@@ -51,11 +51,11 @@ public class PositionPID extends SubsystemBase {
 
     }
 
-    SmartDashboard.putNumber("Error", error);
-    SmartDashboard.putNumber("pE", pE);
-    SmartDashboard.putNumber("dE", dE);
-    SmartDashboard.putNumber("sumError", sumError);
-    SmartDashboard.putNumber("iE", iE);
+    SmartDashboard.putNumber(name + "Error", error);
+    SmartDashboard.putNumber(name + "pE", pE);
+    SmartDashboard.putNumber(name + "dE", dE);
+    SmartDashboard.putNumber(name + "sumError", sumError);
+    SmartDashboard.putNumber(name + "iE", iE);
 
     return pE + dE + iE;
   }
@@ -104,14 +104,14 @@ public class PositionPID extends SubsystemBase {
     if (motorState == true)
     {
       double newMotorSpeed = calculate(setPoint, motorController.getEncoder().getPosition());
-      if (newMotorSpeed >= 10.5)
+      if (newMotorSpeed >= 6)
       {
-        newMotorSpeed = 10.5;
+        newMotorSpeed = 6;
       }
 
-      else if(newMotorSpeed <= -10.5)
+      else if(newMotorSpeed <= -6)
       {
-        newMotorSpeed = -10.5;
+        newMotorSpeed = -6;
       }
 
       SmartDashboard.putNumber("Motor Speed", newMotorSpeed);

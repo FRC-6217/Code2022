@@ -45,17 +45,17 @@ public final class Constants {
         public static final int DEHANG_BUTTON = 10;
         public static final int HOOKING_BUTTON = 11;
 
-        public static final int WINCH_INDEPENDENT_UP_BUTTON = 1;
-        public static final int WINCH_INDEPENDENT_DOWN_BUTTON = 1;
-        public static final int EXTEND_INDEPENDENT_UP_BUTTON = 12;
-        public static final int EXTEND_INDEPENDENT_DOWN_BUTTON = 11;
+        public static final int WINCH_INDEPENDENT_UP_BUTTON = 12;
+        public static final int WINCH_INDEPENDENT_DOWN_BUTTON = 11;
+        public static final int EXTEND_INDEPENDENT_UP_BUTTON = 10;
+        public static final int EXTEND_INDEPENDENT_DOWN_BUTTON = 9;
 
-        public static final double EXTENDER_MAX_POSITION = 1;
-        public static final double EXTENDER_MIN_POSITION = 1;
-        public static final double EXTENDER_HOOK_POSITION = 1;
+        public static final double EXTENDER_MAX_POSITION = 10;
+        public static final double EXTENDER_MIN_POSITION = 0;
+        public static final double EXTENDER_HOOK_POSITION = 5;
 
-        public static final double WINCH_MAX_POSITION = 1;
-        public static final double WINCH_MIN_POSITION = 1;
+        public static final double WINCH_MAX_POSITION = 10;
+        public static final double WINCH_MIN_POSITION = 0;
         
         public static final int WINCH_ID = 10;
         public static final int EXTENDER_ID = 11;

@@ -24,6 +24,7 @@ public class VelocityPID extends SubsystemBase {
   private CANSparkMax motorController;
   boolean motorState = false;
   private double deadZone = 10;
+  private double spinnerOffset = 0;
   /** Creates a new CustomPID. */
 
 
@@ -36,7 +37,7 @@ public class VelocityPID extends SubsystemBase {
     SmartDashboard.putNumber(name + " P Gain",0.023000);
     SmartDashboard.putNumber(name + " I Gain", 0.000040);
     SmartDashboard.putNumber(name + " D Gain", 0);
-    SmartDashboard.putNumber(name + " Set Point", 1800.000000);
+    SmartDashboard.putNumber(name + " Set Point", 1850.000000);
   }
 
   private double calculate(double setPoint, double currentPoint) {
@@ -99,14 +100,25 @@ public class VelocityPID extends SubsystemBase {
     return Math.abs(motorController.getEncoder().getVelocity() - setPoint) < setPoint * 0.05;
   }
 
+  public void increaseSetpoint(){
+    spinnerOffset += 100;
+  }
+  public void decreaseSetpoint(){
+    spinnerOffset -= 100;
+  }
+  public void clearSpinnerOffset(){
+    spinnerOffset = 0;
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Current RPM", motorController.getEncoder().getVelocity());
     SmartDashboard.putNumber("Current RPM Graph", motorController.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Spinner Offset", spinnerOffset);
     updateConstants();
     if (motorState == true)
     {
-      double newMotorSpeed = calculate(setPoint, motorController.getEncoder().getVelocity());
+      double newMotorSpeed = calculate(setPoint  + spinnerOffset, motorController.getEncoder().getVelocity());
       if (newMotorSpeed >= Constants.PID.MAX_VOLTAGE)
       {
         newMotorSpeed = Constants.PID.MAX_VOLTAGE;

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.SingleMotorControl;
@@ -39,6 +40,8 @@ public class JoystickHanger extends CommandBase {
     this.joystick = joystick;
     this.extender = extender;
     this.winch = winch;
+    addRequirements(winch);
+    addRequirements(extender);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -190,6 +193,8 @@ public class JoystickHanger extends CommandBase {
         //cry
         break;
     }
+
+    SmartDashboard.putString("Climber State", currentState.name());
   }
 
   // Called once the command ends or is interrupted.
