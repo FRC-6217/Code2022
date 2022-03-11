@@ -11,18 +11,20 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Lidar;
 
 public class JoystickDrive extends CommandBase {
   /** Creates a new JoystickDrive. */
   private DriveTrain driveTrain;
   private Joystick joy;
+  private Lidar lidar;
 
   
 
-  public JoystickDrive(DriveTrain driveTrain, Joystick joy) {
+  public JoystickDrive(DriveTrain driveTrain, Joystick joy, Lidar lidar) {
     this.joy = joy;
     this.driveTrain = driveTrain;
-
+    this.lidar = lidar;
     addRequirements(this.driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }

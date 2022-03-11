@@ -64,4 +64,12 @@ public final class Constants {
     public static final class PID{
         public static final double MAX_VOLTAGE = 8;
     }
+    public static final class LIDAR{
+        public static final int I2C_ADDRESS = 0x62;
+        public static final byte ACQ_COMMAND_REG = 0x00;
+        public static final byte STATUS_REG = 0x01;
+        public static final byte FULL_DELAY_HIGH_REG = 0x0f;
+        public static final byte FULL_DELAY_LOW_REG = 0x10;
+        public static final byte MEASURE_COMMAND = 0x04;
+    }
 }
