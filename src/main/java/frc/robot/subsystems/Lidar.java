@@ -7,10 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LIDAR;
-<<<<<<< HEAD
-import frc.robot.Constants.CONVERSATIONS;
-=======
->>>>>>> f7901ed7ca0f669384953d0d947f0cb6f3a17001
+import frc.robot.Constants.CONVERSIONS;
 
 public class Lidar extends SubsystemBase {
   /** Creates a new Lidar. */
@@ -68,7 +65,7 @@ public class Lidar extends SubsystemBase {
   }
 
   public double getDistanceInInches() {
-    return distance * CONVERSATIONS.CENTIMETER_TO_INCHES;
+    return distance * CONVERSIONS.CENTIMETER_TO_INCHES;
   }
 
   public void enable() {
