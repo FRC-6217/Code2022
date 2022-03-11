@@ -7,7 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LIDAR;
+<<<<<<< HEAD
 import frc.robot.Constants.CONVERSATIONS;
+=======
+>>>>>>> f7901ed7ca0f669384953d0d947f0cb6f3a17001
 
 public class Lidar extends SubsystemBase {
   /** Creates a new Lidar. */
