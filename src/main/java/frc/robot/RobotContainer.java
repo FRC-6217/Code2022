@@ -16,16 +16,17 @@ import frc.robot.subsystems.PositionPID;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Flapper;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lidar;
 import frc.robot.subsystems.SingleMotorControl;
-import frc.robot.commands.JoystickDrive;
-import frc.robot.commands.JoystickHanger;
-import frc.robot.commands.extenderPIDCommand;
-import frc.robot.commands.bad.JoystickExtender;
-import frc.robot.commands.bad.JoystickShooter;
-import frc.robot.commands.bad.JoystickWinch;
-import frc.robot.commands.AutoDriveWeekZero;
-import frc.robot.commands.AutoShootDuluth;
-import frc.robot.commands.JoystickBallHandler;
+import frc.robot.Commands.JoystickDrive;
+import frc.robot.Commands.JoystickHanger;
+import frc.robot.Commands.extenderPIDCommand;
+import frc.robot.Commands.bad.JoystickExtender;
+import frc.robot.Commands.bad.JoystickShooter;
+import frc.robot.Commands.bad.JoystickWinch;
+import frc.robot.Commands.AutoDriveWeekZero;
+import frc.robot.Commands.AutoShootDuluth;
+import frc.robot.Commands.JoystickBallHandler;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -45,13 +46,14 @@ public class RobotContainer {
   private final SingleMotorControl winch = new SingleMotorControl(10, MotorType.kBrushless, false, 0.1, 1);
   private final PositionPID extenderPID = new PositionPID("extender", Constants.HANGER.EXTENDER_ID, 0, 0, 0);
   private final Joystick driveStick = new Joystick(0);
+  private final Lidar lidar = new Lidar();
   private final XboxController xbox = new XboxController(1);
   public RobotContainer() {
 
     // Configure the button bindings
     configureButtonBindings();
     
-    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));
+    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick, lidar));
 
     CommandScheduler.getInstance().setDefaultCommand(spinner, new JoystickBallHandler(leftFlapper, rightFlapper, spinner, intake, xbox));
     //CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickExtender(extender, driveStick));
