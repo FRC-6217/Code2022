@@ -2,7 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+
+
+// https://static.garmin.com/pumac/LIDAR_Lite_v3_Operation_Manual_and_Technical_Specifications.pdf
 package frc.robot.subsystems;
+
+import org.ejml.interfaces.decomposition.DecompositionSparseInterface;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,8 +26,13 @@ public class Lidar extends SubsystemBase {
   ENABLE enable = ENABLE.ON;
   STATE state = STATE.START_MEASUREMENT;
   byte buffer[] = new byte[2];
+
   public Lidar() {
-     i2c = new I2C(I2C.Port.kOnboard, LIDAR.I2C_ADDRESS);
+     i2c = new I2C(I2C.Port.kMXP, LIDAR.I2C_ADDRESS);
+
+     i2c.write(0x02,0x80); // Default
+     i2c.write(0x04,0x08); // Default
+     i2c.write(0x1c,0x00); // Default
   }
 
   @Override
@@ -38,6 +48,7 @@ public class Lidar extends SubsystemBase {
       case START_MEASUREMENT:
         i2c.write(LIDAR.ACQ_COMMAND_REG, LIDAR.MEASURE_COMMAND);
         state = STATE.WAIT;
+        break;
       case WAIT:
         i2c.read(LIDAR.STATUS_REG, 1, buffer);
         if ((buffer[0] & 0x01) == 0x00) {
@@ -49,16 +60,14 @@ public class Lidar extends SubsystemBase {
         }
         break;
       case GET_MEASUREMENT:
-        i2c.read(LIDAR.FULL_DELAY_HIGH_REG, BYTE_COUNT, buffer);
-        short high = buffer[0];
-        i2c.read(LIDAR.FULL_DELAY_LOW_REG, BYTE_COUNT, buffer);
-        byte low = buffer[0];
-        distance =  (short) (((int) high << 0x8) | (int) low);
+        i2c.read(LIDAR.READ_REG, 2, buffer);
+        distance =  (short) (((int) buffer[0] << 0x8) | (int) buffer[1]);
         state = STATE.START_MEASUREMENT;
-        System.out.println("lidar: " + distance);
+
+       // System.out.println("lidar: " + distance);
         break;
     }
-    // This method will be called once per scheduler run
+  //  System.out.println("state: " + state);
   }
   public int getDistanceInCentimeters() {
     return distance;

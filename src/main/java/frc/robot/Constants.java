@@ -66,10 +66,11 @@ public final class Constants {
     }
     public static final class LIDAR{
         public static final int I2C_ADDRESS = 0x62;
-        public static final byte ACQ_COMMAND_REG = 0x00;
-        public static final byte STATUS_REG = 0x01;
-        public static final byte FULL_DELAY_HIGH_REG = 0x0f;
+        public static final int ACQ_COMMAND_REG = 0x00;
+        public static final int STATUS_REG = 0x01;
+        public static final byte FULL_DELAY_HIGH_REG = 0x0F;
         public static final byte FULL_DELAY_LOW_REG = 0x10;
+        public static final int READ_REG = 0x8F;
         public static final byte MEASURE_COMMAND = 0x04;
 
     }
@@ -77,5 +78,7 @@ public final class Constants {
     public static final class CONVERSIONS {
         public static final double INCHES_TO_CENTIMETER = 2.54;
         public static final double CENTIMETER_TO_INCHES = 1 / INCHES_TO_CENTIMETER;
+        public static final double INCHES_TO_FEET = 12;
+        public static final double CENTIMETER_TO_FEET = CENTIMETER_TO_INCHES * INCHES_TO_FEET;
     }
 }

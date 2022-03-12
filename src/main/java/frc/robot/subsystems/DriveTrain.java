@@ -100,7 +100,7 @@ public class DriveTrain extends SubsystemBase {
     //dt_feedforward = new SimpleMotorFeedforward(0.12923, 2.7944, 0.32061);
     // dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
 
-    CameraServer.startAutomaticCapture();
+   // CameraServer.startAutomaticCapture();
 
 
   }
