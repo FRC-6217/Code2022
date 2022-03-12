@@ -63,11 +63,8 @@ public class Lidar extends SubsystemBase {
         i2c.read(LIDAR.READ_REG, 2, buffer);
         distance =  (short) (((int) buffer[0] << 0x8) | (int) buffer[1]);
         state = STATE.START_MEASUREMENT;
-
-       // System.out.println("lidar: " + distance);
         break;
     }
-  //  System.out.println("state: " + state);
   }
   public int getDistanceInCentimeters() {
     return distance;
