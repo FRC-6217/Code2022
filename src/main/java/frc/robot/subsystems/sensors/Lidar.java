@@ -5,7 +5,7 @@
 
 
 // https://static.garmin.com/pumac/LIDAR_Lite_v3_Operation_Manual_and_Technical_Specifications.pdf
-package frc.robot.subsystems;
+package frc.robot.subsystems.sensors;
 
 import org.ejml.interfaces.decomposition.DecompositionSparseInterface;
 

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Lidar;
+import frc.robot.subsystems.sensors.Lidar;
 
 public class JoystickDrive extends CommandBase {
   /** Creates a new JoystickDrive. */
