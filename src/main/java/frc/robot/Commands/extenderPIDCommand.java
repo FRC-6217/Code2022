@@ -29,11 +29,9 @@ public class extenderPIDCommand extends CommandBase {
   public void execute() {
     if (j.getRawButton(HANGER.EXTEND_BUTTON)) {
       p.turnOn();
-      System.out.println("it's on");
     }
     else {
       p.turnOff();
-      System.out.println("it's off");
     }
   }
 

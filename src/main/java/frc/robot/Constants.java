@@ -75,6 +75,10 @@ public final class Constants {
 
     }
 
+    public static final class PIGEON {
+        public static final int DEVICE_ID = 1;
+    }
+
     public static final class CONVERSIONS {
         public static final double INCHES_TO_CENTIMETER = 2.54;
         public static final double CENTIMETER_TO_INCHES = 1 / INCHES_TO_CENTIMETER;
