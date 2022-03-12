@@ -19,8 +19,6 @@ public class Lidar extends SubsystemBase {
   private short distance = 0;
   private I2C i2c;
 
-  private byte BYTE_COUNT = 1;
-
   enum ENABLE {OFF, ON};
   enum STATE {IDLE, START_MEASUREMENT, WAIT, GET_MEASUREMENT};
   ENABLE enable = ENABLE.ON;
@@ -30,9 +28,11 @@ public class Lidar extends SubsystemBase {
   public Lidar() {
      i2c = new I2C(I2C.Port.kMXP, LIDAR.I2C_ADDRESS);
 
-     i2c.write(0x02,0x80); // Default
-     i2c.write(0x04,0x08); // Default
-     i2c.write(0x1c,0x00); // Default
+
+     // write default settings?
+     // i2c.write(0x02,0x80); 
+     // i2c.write(0x04,0x08); 
+     // i2c.write(0x1c,0x00); 
   }
 
   @Override
