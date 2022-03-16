@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.Pigeon2Configuration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -18,6 +20,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DRIVE_TRAIN;
 
@@ -42,7 +45,7 @@ public class DriveTrain extends SubsystemBase {
   private DifferentialDriveKinematics dt_kinematics;
   private DifferentialDriveOdometry dt_odometry;
 
-  // private Pigeon2 gyro;
+  private Pigeon2 gyro;
 
 
 
@@ -86,21 +89,22 @@ public class DriveTrain extends SubsystemBase {
     dt_RightMotor_Encoder_F.setVelocityConversionFactor(DRIVE_TRAIN.ENCODER_DISTANCE_CONVERSION_FACTOR);
     
     //Setup the Gyro
-    // gyro = new Pigeon2(10);
-    // Pigeon2Configuration config = new Pigeon2Configuration();
+    gyro = new Pigeon2(10);
+    Pigeon2Configuration config = new Pigeon2Configuration();
 
     // set mount pose as rolled 90 degrees counter-clockwise
-    // config.MountPoseYaw = 0;
-    // config.MountPosePitch = 0;
-    // config.MountPoseRoll = 90;
-    // gyro.configAllSettings(config);
+    config.MountPoseYaw = 0;
+    config.MountPosePitch = 0;
+    config.MountPoseRoll = 90;
+    
+    gyro.configAllSettings(config);
 
     //Motion tracking and trajetory code for auto.
     dt_kinematics = new DifferentialDriveKinematics(0.6223);
     //dt_feedforward = new SimpleMotorFeedforward(0.12923, 2.7944, 0.32061);
     // dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
 
-   // CameraServer.startAutomaticCapture();
+  //  CameraServer.startAutomaticCapture();
 
 
   }
@@ -128,6 +132,24 @@ public class DriveTrain extends SubsystemBase {
     dt_LeftMotor_Encoder_F.setPosition(0);
     dt_RightMotor_Encoder_L.setPosition(0);
     dt_RightMotor_Encoder_F.setPosition(0);
+  }
+
+  public void resetGyro(){
+    gyro.setYaw(0);
+  }
+
+  public double getAngle(){
+  
+    double angle = gyro.getYaw();
+    while (angle<-180 || angle>180){
+      if(angle<-180){
+        angle += 360;
+      }
+      else if (angle>180) {
+        angle -= 360;
+      }
+    }
+    return angle;
   }
 
 
@@ -165,6 +187,11 @@ public class DriveTrain extends SubsystemBase {
 
   //Teleop Control
   public void drive(double xSpeed, double rot) {
+    SmartDashboard.putNumber("Gyro Angle", getAngle());
+    SmartDashboard.putNumber("Drive Encoder Left", getLeftEncoderPosition());
+    SmartDashboard.putNumber("Drive Encoder Right", getRightEncoderPosition());
+
+
     var wheelSpeeds = dt_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot * DRIVE_TRAIN.Z_AXIS_TELEOP_ADJUSTMENT));
     setSpeeds(wheelSpeeds);
   }

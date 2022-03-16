@@ -2,18 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 
 public class AutoDriveWeekZero extends CommandBase {
   /** Creates a new AutoDriveWeekZero. */
   private DriveTrain driveTrain;
-  public AutoDriveWeekZero(DriveTrain driveTrain) {
+  private double distance;
+  private Intake intake;
+
+  public AutoDriveWeekZero(DriveTrain driveTrain, Intake intake, double distance) {
     this.driveTrain = driveTrain;
+    this.distance = distance;
+    this.intake = intake;
     addRequirements(driveTrain);
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,19 +33,21 @@ public class AutoDriveWeekZero extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive(.4, 0);
+    intake.setForward();
+    driveTrain.drive(-.4, 0);
     SmartDashboard.putNumber("DriveTrain", driveTrain.getLeftEncoderPosition());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    intake.setOff();
     driveTrain.drive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return -driveTrain.getLeftEncoderPosition() > 3;
+    return driveTrain.getLeftEncoderPosition() > distance;
   }
 }

@@ -11,22 +11,26 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.VelocityPID;
 import frc.robot.subsystems.sensors.Lidar;
+import frc.robot.subsystems.sensors.LimeLight;
 import frc.robot.subsystems.PositionPID;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Flapper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SingleMotorControl;
-import frc.robot.Commands.JoystickDrive;
-import frc.robot.Commands.JoystickHanger;
-import frc.robot.Commands.extenderPIDCommand;
-import frc.robot.Commands.bad.JoystickExtender;
-import frc.robot.Commands.bad.JoystickShooter;
-import frc.robot.Commands.bad.JoystickWinch;
-import frc.robot.Commands.AutoDriveWeekZero;
-import frc.robot.Commands.AutoShootDuluth;
-import frc.robot.Commands.JoystickBallHandler;
+import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.JoystickHanger;
+import frc.robot.commands.extenderPIDCommand;
+import frc.robot.commands.bad.JoystickExtender;
+import frc.robot.commands.bad.JoystickShooter;
+import frc.robot.commands.bad.JoystickWinch;
+import frc.robot.commands.AutoBallIntake;
+import frc.robot.commands.AutoDriveWeekZero;
+import frc.robot.commands.AutoGrabber;
+import frc.robot.commands.AutoShootDuluth;
+import frc.robot.commands.JoystickBallHandler;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -51,17 +55,21 @@ public class RobotContainer {
   private final Joystick driveStick = new Joystick(0);
 
   private final XboxController xbox = new XboxController(1);
+
+  private final LimeLight ballLimeLight = new LimeLight();
+
   public RobotContainer() {
 
     // Configure the button bindings
     configureButtonBindings();
 
-    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick, lidar));
+    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick, lidar, ballLimeLight));
 
     CommandScheduler.getInstance().setDefaultCommand(spinner, new JoystickBallHandler(leftFlapper, rightFlapper, spinner, intake, xbox));
     CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickExtender(extender, driveStick));
    // CommandScheduler.getInstance().setDefaultCommand(extenderPID, new extenderPIDCommand(extenderPID, driveStick));
     CommandScheduler.getInstance().setDefaultCommand(winch, new JoystickWinch(winch, driveStick));
+  
     // CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickHanger(extender, winch, driveStick));
 
   }
@@ -72,7 +80,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    new JoystickButton(driveStick, 1).whileHeld(new AutoGrabber(driveTrain, intake, ballLimeLight, driveStick));
+  
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

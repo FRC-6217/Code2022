@@ -13,35 +13,58 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimeLight extends SubsystemBase {
 
-    NetworkTable table;
-  double x, y, area;
+  NetworkTable table;
+  NetworkTableEntry  x, y, area, valid;
+
+  public enum PiplineID{
+    RedBall,
+    BlueBall,
+    Range
+  }
   /** Creates a new LimeLight. */
   public LimeLight() {
-
-  table = NetworkTableInstance.getDefault().getTable("limelight");
-
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+    x = table.getEntry("tx");
+    y = table.getEntry("ty");
+    area = table.getEntry("ta");
+    valid = table.getEntry("tv");
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    x = table.getEntry("tx").getDouble(0.0);
-    y = table.getEntry("ty").getDouble(0.0);
-    area = table.getEntry("ta").getDouble(0.0);
 
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightY", y);
-    SmartDashboard.putNumber("LimelightArea", area);
+    SmartDashboard.putNumber("LimelightX", x.getDouble(0));
+    SmartDashboard.putNumber("LimelightY", y.getDouble(0));
+    SmartDashboard.putNumber("LimelightArea", area.getDouble(0));
+    SmartDashboard.putNumber("LimelightValid", valid.getDouble(0));
   }
 
   // todo ..return distance
 
-  double getX() {
-    return x;
+  public double getX() {
+    return x.getDouble(0);
   }
   
-  double getY() {
-    return y;
+  public double getY() {
+    return y.getDouble(0);
+  }
+
+  public boolean getValid() {
+    return valid.getDouble(0) == 1;
+  }
+
+
+
+  public void setPipline(PiplineID piplineID){
+    switch(piplineID){
+      case BlueBall:
+        table.getEntry("pipline").setNumber(0);
+      case RedBall:
+        table.getEntry("pipline").setNumber(1);
+      case Range:
+        table.getEntry("pipline").setNumber(0);
+    }
   }
 
 }
