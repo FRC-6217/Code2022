@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,29 +12,32 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDController extends SubsystemBase {
 
-
+// MODE needs to match case statement on arduino
   enum MODE {OFF, RED, BLUE, WHITE}; //Add more 
   MODE current_mode = MODE.OFF;
+
   SerialPort serialPort;
   private byte[] write_buffer = new byte[1];
+  private final int baud_rate = 9600;
+  private final int TRANSFER_SIZE = 1;
+  String dashboardName = "ledColor";
+  String dashboardDefault = "OFF";
 
   /** Creates a new LEDController. */
   public LEDController() {
-    serialPort = new SerialPort(9600, SerialPort.Port.kMXP);
+    serialPort = new SerialPort(baud_rate, SerialPort.Port.kMXP);
     CommandScheduler.getInstance().registerSubsystem(this);
-    SmartDashboard.putString("ledColor", "OFF");
+    SmartDashboard.putString(dashboardName, dashboardDefault);
   }
 
   @Override
   public void periodic() {
-    String string = SmartDashboard.getString("ledColor ", "OFF");
+    String string = SmartDashboard.getString(dashboardName, dashboardDefault);
     MODE new_mode = MODE.valueOf(string); // todo try catch
     if (new_mode != current_mode) {
       set(new_mode);
       current_mode = new_mode;
     }
-
-    // This method will be called once per scheduler run
   }
 
   public void set(Alliance alliance) {
@@ -58,6 +59,6 @@ public class LEDController extends SubsystemBase {
 
   public void set(MODE mode) {
     write_buffer[0] = (byte) mode.ordinal();
-    serialPort.write(write_buffer, 1);
+    serialPort.write(write_buffer, TRANSFER_SIZE);
   }
 }

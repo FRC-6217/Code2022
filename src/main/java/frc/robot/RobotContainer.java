@@ -66,7 +66,7 @@ public class RobotContainer {
   public RobotContainer() {
 
 
-
+    ledController.set(DriverStation.getAlliance());
     // Configure the button bindings
     configureButtonBindings();
 
