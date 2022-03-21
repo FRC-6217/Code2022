@@ -5,6 +5,7 @@
 package frc.robot.commands.bad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -13,11 +14,11 @@ import frc.robot.subsystems.SingleMotorControl;
 public class JoystickWinch extends CommandBase {
   /** Creates a new JoystickWinch. */
   private SingleMotorControl winch;
-  private Joystick joystick;
+  private XboxController xbox;
 
-  public JoystickWinch(SingleMotorControl winch, Joystick joystick) {
+  public JoystickWinch(SingleMotorControl winch, XboxController xbox) {
     this.winch = winch;
-    this.joystick = joystick;
+    this.xbox = xbox;
     addRequirements(this.winch);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,10 +30,10 @@ public class JoystickWinch extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(joystick.getRawButton(Constants.HANGER.WINCH_INDEPENDENT_UP_BUTTON)){
+    if(xbox.getRightY() < -0.5){
       winch.turnOnForward();
     }
-    else if(joystick.getRawButton(Constants.HANGER.WINCH_INDEPENDENT_DOWN_BUTTON)){
+    else if(xbox.getRightY() > 0.5){
       winch.turnOnReverse();
     }
     else {

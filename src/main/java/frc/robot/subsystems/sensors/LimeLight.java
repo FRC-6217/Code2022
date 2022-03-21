@@ -5,7 +5,8 @@
 package frc.robot.subsystems.sensors;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -22,12 +23,18 @@ public class LimeLight extends SubsystemBase {
     Range
   }
   /** Creates a new LimeLight. */
-  public LimeLight() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
+  public LimeLight(String name) {
+    table = NetworkTableInstance.getDefault().getTable("limelight-" + name);
     x = table.getEntry("tx");
     y = table.getEntry("ty");
     area = table.getEntry("ta");
     valid = table.getEntry("tv");
+    if(DriverStation.getAlliance() == Alliance.Red){
+      setPipline(LimeLight.PiplineID.RedBall);
+    }
+    else{
+      setPipline(LimeLight.PiplineID.BlueBall);
+    }
   }
 
   @Override

@@ -4,11 +4,17 @@
 
 package frc.robot;
 
+import java.sql.Driver;
+
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -22,11 +28,15 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.JoystickHanger;
+import frc.robot.commands.SemiAutoBallAlign;
 import frc.robot.commands.extenderPIDCommand;
 import frc.robot.commands.bad.JoystickExtender;
 import frc.robot.commands.bad.JoystickShooter;
 import frc.robot.commands.bad.JoystickWinch;
 import frc.robot.commands.AutoBallIntake;
+import frc.robot.commands.AutoCedarFallsTwoBall;
+import frc.robot.commands.AutoDriveDistance;
+import frc.robot.commands.AutoDrivePose;
 import frc.robot.commands.AutoDriveWeekZero;
 import frc.robot.commands.AutoGrabber;
 import frc.robot.commands.AutoShootDuluth;
@@ -56,9 +66,11 @@ public class RobotContainer {
 
   private final XboxController xbox = new XboxController(1);
 
-  private final LimeLight ballLimeLight = new LimeLight();
+  private final LimeLight ballLimeLight = new LimeLight("ball");
+  private final LimeLight ringLimeLight = new LimeLight("ring");
 
   public RobotContainer() {
+    
 
     // Configure the button bindings
     configureButtonBindings();
@@ -66,9 +78,9 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick, lidar, ballLimeLight));
 
     CommandScheduler.getInstance().setDefaultCommand(spinner, new JoystickBallHandler(leftFlapper, rightFlapper, spinner, intake, xbox));
-    CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickExtender(extender, driveStick));
+    CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickExtender(extender, xbox));
    // CommandScheduler.getInstance().setDefaultCommand(extenderPID, new extenderPIDCommand(extenderPID, driveStick));
-    CommandScheduler.getInstance().setDefaultCommand(winch, new JoystickWinch(winch, driveStick));
+    CommandScheduler.getInstance().setDefaultCommand(winch, new JoystickWinch(winch, xbox));
   
     // CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickHanger(extender, winch, driveStick));
 
@@ -81,7 +93,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveStick, 1).whileHeld(new AutoGrabber(driveTrain, intake, ballLimeLight, driveStick));
+    new JoystickButton(driveStick, 2).whileHeld(new SemiAutoBallAlign(driveTrain, ballLimeLight, LimeLight.PiplineID.RedBall, driveStick));
   
   }
 
@@ -91,7 +103,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command m_autoCommand =null; // new AutoShootDuluth(driveTrain,spinner,intake,leftFlapper,rightFlapper);
+    Command m_autoCommand = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight);//new AutoGrabber(driveTrain, intake, spinner, ballLimeLight);//new AutoDrivePose(driveTrain, new Pose2d(0, 0, new Rotation2d(Math.PI))); // new AutoShootDuluth(driveTrain,spinner,intake,leftFlapper,rightFlapper);
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }

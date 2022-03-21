@@ -46,6 +46,7 @@ public class JoystickDrive extends CommandBase {
     if(joy.getRawButton(1)){
       driveTrain.resetEncoders();
       driveTrain.resetGyro();
+      driveTrain.resetPose();
     }
 
     SmartDashboard.putNumber("Limelight In drive Code", ballLimeLight.getX());

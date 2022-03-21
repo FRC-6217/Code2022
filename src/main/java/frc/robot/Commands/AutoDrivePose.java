@@ -4,21 +4,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.VelocityPID;
-import frc.robot.subsystems.sensors.LimeLight;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoGrabber extends SequentialCommandGroup {
-  /** Creates a new AutoGrabber. */
-  public AutoGrabber(DriveTrain driveTrain, Intake intake, VelocityPID spinner, LimeLight ballLimeLight) {
+public class AutoDrivePose extends SequentialCommandGroup {
+  /** Creates a new AutoDrivePose. */
+  public AutoDrivePose(DriveTrain driveTrain, Pose2d desiredPose) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoBallIntake(driveTrain, intake, spinner, ballLimeLight, LimeLight.PiplineID.RedBall), new AutoDriveWeekZero(driveTrain, intake, spinner, .3));
+    addCommands(new AutoDriveDistance(driveTrain, desiredPose), new AutoDriveAngle(driveTrain, desiredPose));
   }
 }

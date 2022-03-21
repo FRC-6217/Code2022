@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -102,7 +103,9 @@ public class DriveTrain extends SubsystemBase {
     //Motion tracking and trajetory code for auto.
     dt_kinematics = new DifferentialDriveKinematics(0.6223);
     //dt_feedforward = new SimpleMotorFeedforward(0.12923, 2.7944, 0.32061);
-    // dt_odometry = new DifferentialDriveOdometry(dt_gyro.getRotation2d());
+    resetEncoders();
+    resetGyro();
+    dt_odometry = new DifferentialDriveOdometry(new Rotation2d(Math.PI * getAngle() / 180));
 
   //  CameraServer.startAutomaticCapture();
 
@@ -123,7 +126,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getRightEncoderPosition(){
-    return (dt_RightMotor_Encoder_L.getPosition() + dt_RightMotor_Encoder_F.getPosition()) / 2;
+    return -(dt_RightMotor_Encoder_L.getPosition() + dt_RightMotor_Encoder_F.getPosition()) / 2;
   }
 
   //Reset the encoders value to zero
@@ -141,22 +144,22 @@ public class DriveTrain extends SubsystemBase {
   public double getAngle(){
   
     double angle = gyro.getYaw();
-    while (angle<-180 || angle>180){
-      if(angle<-180){
-        angle += 360;
-      }
-      else if (angle>180) {
-        angle -= 360;
-      }
-    }
+    // while (angle<-180 || angle>180){
+    //   if(angle<-180){
+    //     angle += 360;
+    //   }
+    //   else if (angle>180) {
+    //     angle -= 360;
+    //   }
+    // }
     return angle;
   }
 
 
   //TODO add pigeon and uncomment these methods.
-  // public void zeroHeading() {
-  //   dt_gyro.reset();
-  // }
+  public void zeroHeading() {
+    gyro.setYaw(0);
+  }
 
   // public double getHeading() {
   //   return dt_gyro.getRotation2d().getDegrees();
@@ -169,6 +172,9 @@ public class DriveTrain extends SubsystemBase {
   //Return pose/position of the robot based on the gyro and motor encoders
   public Pose2d getPose() {
     return dt_odometry.getPoseMeters();
+  }
+  public void resetPose(){
+    dt_odometry.resetPosition(new Pose2d(0,0, new Rotation2d(0)), new Rotation2d(getAngle()));
   }
 
   //Send voltage to the motors instead of percentage
@@ -190,6 +196,9 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Angle", getAngle());
     SmartDashboard.putNumber("Drive Encoder Left", getLeftEncoderPosition());
     SmartDashboard.putNumber("Drive Encoder Right", getRightEncoderPosition());
+    SmartDashboard.putNumber("Pose X", getPose().getX());
+    SmartDashboard.putNumber("Pose Y", getPose().getY());
+    SmartDashboard.putNumber("Pose Rot", getPose().getRotation().getDegrees());
 
 
     var wheelSpeeds = dt_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot * DRIVE_TRAIN.Z_AXIS_TELEOP_ADJUSTMENT));
@@ -198,6 +207,6 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // dt_odometry.update(Rotation2D gyro.getYaw(), getLeftEncoderPosition(), getRightEncoderPosition());
+    dt_odometry.update(new Rotation2d(Math.PI * getAngle() / 180), getLeftEncoderPosition(), getRightEncoderPosition());
   }
 }

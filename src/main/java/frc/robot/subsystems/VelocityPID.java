@@ -97,7 +97,7 @@ public class VelocityPID extends SubsystemBase {
   }
 
   public boolean isAtSetpoint(){
-    return Math.abs(motorController.getEncoder().getVelocity() - setPoint) < setPoint * 0.05;
+    return Math.abs(motorController.getEncoder().getVelocity() - setPoint) < setPoint * 0.008;
   }
 
   public void increaseSetpoint(){

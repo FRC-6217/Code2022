@@ -8,12 +8,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.VelocityPID;
 import frc.robot.subsystems.sensors.LimeLight;
 
-public class AutoBallIntake extends CommandBase {
-  /** Creates a new AutoBallIntake. */
+public class SemiAutoBallAlign extends CommandBase {
+  /** Creates a new SemiAutoBallAlign. */  /** Creates a new AutoBallIntake. */
   enum BallIntakeState{
     Searching,
     Found,
@@ -25,19 +23,17 @@ public class AutoBallIntake extends CommandBase {
 
   private DriveTrain driveTrain;
   private LimeLight ballLimeLight;
-  private Intake intake;
+  private Joystick joy;
 
-  public AutoBallIntake(DriveTrain driveTrain, Intake intake, VelocityPID spinner, LimeLight ballLimeLight, LimeLight.PiplineID color) {
+  public SemiAutoBallAlign(DriveTrain driveTrain, LimeLight ballLimeLight, LimeLight.PiplineID color, Joystick joy) {
     addRequirements(driveTrain);
     addRequirements(ballLimeLight);
-    addRequirements(intake);
-    addRequirements(spinner);
 
     this.driveTrain = driveTrain;
     this.ballLimeLight = ballLimeLight;
-    this.intake = intake;
     this.ballLimeLight.setPipline(color);
     this.state = BallIntakeState.Searching;
+    this.joy = joy;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -45,25 +41,24 @@ public class AutoBallIntake extends CommandBase {
   @Override
   public void initialize() {
     this.state = BallIntakeState.Searching;
-    SmartDashboard.putString("Limelight State", state.toString());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double xSpeed = -0.3;
+    double gov = (1-joy.getRawAxis(3))/2;
+    double xSpeed = (Math.abs(joy.getRawAxis(1)) < 0.3) ? 0.0 : (joy.getRawAxis(1) * gov);
+    double rot = (Math.abs(joy.getRawAxis(2)) < 0.3) ? 0.0 : (joy.getRawAxis(2) * gov);
     
     switch(state){
       case Searching:
-        driveTrain.drive(0, 0.3);
+        driveTrain.drive(xSpeed, rot);
         if(ballLimeLight.getValid()){
           state = BallIntakeState.Chasing;
         }
         break;
       case Chasing:
-        intake.setForward();
-        double rotationError = ballLimeLight.getX() / 75; // Set to be between -0.66 0.66
-        SmartDashboard.putNumber("Rot Error", rotationError);
+        double rotationError = ballLimeLight.getX()/75; // Set to be between -0.66 0.66
         if(Math.abs(ballLimeLight.getX()) < 3){
           driveTrain.drive(xSpeed, 0);
         }
@@ -71,14 +66,12 @@ public class AutoBallIntake extends CommandBase {
           driveTrain.drive(xSpeed, rotationError);
         }
         else{
-          driveTrain.drive(0, rotationError);
+          driveTrain.drive(xSpeed,rotationError);
         }
 
         if(!ballLimeLight.getValid()){
-          state = BallIntakeState.Aquired;
+          state = BallIntakeState.Searching;
         }
-        break;
-      case Aquired:
         break;
     }
     SmartDashboard.putString("Limelight State", state.toString());
@@ -87,8 +80,6 @@ public class AutoBallIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putBoolean("Interrupted", interrupted);
-    intake.setOff();
     driveTrain.drive(0,0);
   }
 

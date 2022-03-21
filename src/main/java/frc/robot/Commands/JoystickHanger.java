@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -31,13 +32,13 @@ public class JoystickHanger extends CommandBase {
   }
 
   private HangerState currentState;
-  private Joystick joystick;
+  private XboxController xbox;
   private SingleMotorControl extender;
   private SingleMotorControl winch;
 
-  public JoystickHanger(SingleMotorControl extender, SingleMotorControl winch, Joystick joystick) {
+  public JoystickHanger(SingleMotorControl extender, SingleMotorControl winch, XboxController xbox) {
     currentState = HangerState.TELE;
-    this.joystick = joystick;
+    this.xbox = xbox;
     this.extender = extender;
     this.winch = winch;
     addRequirements(winch);
@@ -53,11 +54,11 @@ public class JoystickHanger extends CommandBase {
   @Override
   public void execute() {
     boolean isUserInit = true;//joystick.getRawButton(Constants.HANGER.INIT_BUTTON_1) && joystick.getRawButton(Constants.HANGER.INIT_BUTTON_2);
-    boolean isUserExtending = joystick.getRawButton(Constants.HANGER.EXTEND_BUTTON);
-    boolean isUserDeextending = joystick.getRawButton(Constants.HANGER.DEEXTEND_BUTTON);
-    boolean isUserHooking = joystick.getRawButton(Constants.HANGER.HOOKING_BUTTON);
-    boolean isUserHanging = joystick.getRawButton(Constants.HANGER.HANG_BUTTON);
-    boolean isUserDehanging = joystick.getRawButton(Constants.HANGER.DEHANG_BUTTON);
+    boolean isUserExtending = xbox.getLeftY() > 0.5;
+    boolean isUserDeextending = xbox.getLeftY() < -0.5;
+    boolean isUserHooking = xbox.getLeftY() < -0.5;
+    boolean isUserHanging = xbox.getRightY() > 0.5;
+    boolean isUserDehanging = xbox.getRightY() < -0.5;
 
     switch(currentState){
       case TELE:
