@@ -25,6 +25,7 @@ import frc.robot.subsystems.PositionPID;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Flapper;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LEDController;
 import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.JoystickHanger;
@@ -69,9 +70,13 @@ public class RobotContainer {
   private final LimeLight ballLimeLight = new LimeLight("ball");
   private final LimeLight ringLimeLight = new LimeLight("ring");
 
+  private final LEDController ledController = new LEDController();
+
   public RobotContainer() {
     
 
+
+    ledController.set(DriverStation.getAlliance());
     // Configure the button bindings
     configureButtonBindings();
 
