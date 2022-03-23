@@ -39,6 +39,7 @@ import frc.robot.commands.AutoCedarFallsTwoBall;
 import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDrivePose;
 import frc.robot.commands.AutoDriveWeekZero;
+import frc.robot.commands.AutoFlapper;
 import frc.robot.commands.AutoGrabber;
 import frc.robot.commands.AutoShootDuluth;
 import frc.robot.commands.JoystickBallHandler;
@@ -108,7 +109,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command m_autoCommand = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight);//new AutoGrabber(driveTrain, intake, spinner, ballLimeLight);//new AutoDrivePose(driveTrain, new Pose2d(0, 0, new Rotation2d(Math.PI))); // new AutoShootDuluth(driveTrain,spinner,intake,leftFlapper,rightFlapper);
+    Command m_autoCommand = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight, leftFlapper, rightFlapper);//new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight);//new AutoGrabber(driveTrain, intake, spinner, ballLimeLight);//new AutoDrivePose(driveTrain, new Pose2d(0, 0, new Rotation2d(Math.PI))); // new AutoShootDuluth(driveTrain,spinner,intake,leftFlapper,rightFlapper);
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }

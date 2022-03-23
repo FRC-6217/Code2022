@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -25,6 +26,8 @@ public class VelocityPID extends SubsystemBase {
   boolean motorState = false;
   private double deadZone = 10;
   private double spinnerOffset = 0;
+  private double timeInSetPoint = Double.POSITIVE_INFINITY;
+  private boolean isAtSetpoint = false;
   /** Creates a new CustomPID. */
 
 
@@ -37,7 +40,7 @@ public class VelocityPID extends SubsystemBase {
     SmartDashboard.putNumber(name + " P Gain",0.023000);
     SmartDashboard.putNumber(name + " I Gain", 0.000040);
     SmartDashboard.putNumber(name + " D Gain", 0);
-    SmartDashboard.putNumber(name + " Set Point", 1850.000000);
+    SmartDashboard.putNumber(name + " Set Point", 1750.000000);
   }
 
   private double calculate(double setPoint, double currentPoint) {
@@ -97,7 +100,7 @@ public class VelocityPID extends SubsystemBase {
   }
 
   public boolean isAtSetpoint(){
-    return Math.abs(motorController.getEncoder().getVelocity() - setPoint) < setPoint * 0.008;
+    return isAtSetpoint;
   }
 
   public void increaseSetpoint(){
@@ -145,6 +148,24 @@ public class VelocityPID extends SubsystemBase {
     {
       motorController.set(0);
     }
+
+    boolean inSetpointThreshold = Math.abs(motorController.getEncoder().getVelocity() - setPoint) < setPoint * 0.08;
+
+    if(inSetpointThreshold && timeInSetPoint == Double.POSITIVE_INFINITY){
+      timeInSetPoint = Timer.getFPGATimestamp();
+    }
+    else if (inSetpointThreshold && Timer.getFPGATimestamp() - timeInSetPoint > 0.5){
+      isAtSetpoint = true;
+    }
+    else if (!(inSetpointThreshold)){
+      isAtSetpoint = false;
+      timeInSetPoint = Double.POSITIVE_INFINITY;
+    }
+    else{
+      isAtSetpoint = false;
+    }
+
+
     // This method will be called once per scheduler run
   }
 }

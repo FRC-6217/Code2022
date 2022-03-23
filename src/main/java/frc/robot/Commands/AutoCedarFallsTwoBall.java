@@ -4,14 +4,12 @@
 
 package frc.robot.commands;
 
-import java.sql.Driver;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.subsystems.VelocityPID;
 import frc.robot.subsystems.sensors.LimeLight;
 
@@ -20,9 +18,9 @@ import frc.robot.subsystems.sensors.LimeLight;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoCedarFallsTwoBall extends SequentialCommandGroup {
   /** Creates a new AutoCedarFallsTwoBall. */
-  public AutoCedarFallsTwoBall(DriveTrain driveTrain, Intake intake, VelocityPID spinner, LimeLight ballLimeLight) {
+  public AutoCedarFallsTwoBall(DriveTrain driveTrain, Intake intake, VelocityPID spinner, LimeLight ballLimeLight, SingleMotorControl leftFlapper, SingleMotorControl rightFlapper) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoDriveWeekZero(driveTrain, intake, spinner, 1.3), new AutoGrabber(driveTrain, intake, spinner, ballLimeLight), new AutoDrivePose(driveTrain, new Pose2d(0, 0, new Rotation2d(Math.PI))));
+    addCommands(new AutoGrabber(driveTrain, intake, spinner, ballLimeLight), new AutoDrivePose(driveTrain, intake, spinner, true, false, new Pose2d(0.5, 0, new Rotation2d(Math.PI))), new AutoDriveDistance(driveTrain, intake, spinner, false, true, new Pose2d(0, 0, new Rotation2d(Math.PI))), new AutoFlapper(leftFlapper, rightFlapper, spinner, intake));
   }
 }

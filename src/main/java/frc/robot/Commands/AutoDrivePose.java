@@ -5,17 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.VelocityPID;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoDrivePose extends SequentialCommandGroup {
   /** Creates a new AutoDrivePose. */
-  public AutoDrivePose(DriveTrain driveTrain, Pose2d desiredPose) {
+  public AutoDrivePose(DriveTrain driveTrain, Intake intake, VelocityPID spinner, boolean runIntake, boolean runSpinner, Pose2d desiredPose) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoDriveDistance(driveTrain, desiredPose), new AutoDriveAngle(driveTrain, desiredPose));
+    addCommands(new AutoDriveDistance(driveTrain, intake, spinner, runIntake, runSpinner, desiredPose), new AutoDriveAngle(driveTrain, desiredPose));
   }
 }
