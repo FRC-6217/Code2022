@@ -62,7 +62,7 @@ public class JoystickBallHandler extends CommandBase {
         spinner.turnOff();
       }
       else {
-        spinner.setSetpoint(1700);
+        spinner.setSetpoint(1825);
         spinner.turnOn();
       }
     }
@@ -72,7 +72,7 @@ public class JoystickBallHandler extends CommandBase {
         spinner.turnOff();
       }
       else {
-        spinner.setSetpoint(1000);
+        spinner.setSetpoint(1200);
         spinner.turnOn();
       }
     }

@@ -19,6 +19,6 @@ public class AutoGrabber extends SequentialCommandGroup {
   public AutoGrabber(DriveTrain driveTrain, Intake intake, VelocityPID spinner, LimeLight ballLimeLight) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoBallIntake(driveTrain, intake, spinner, ballLimeLight, LimeLight.PiplineID.RedBall), new AutoDriveWeekZero(driveTrain, intake, spinner, .3));
+    addCommands(new AutoDriveWeekZero(driveTrain, intake, spinner, 2.4));
   }
 }

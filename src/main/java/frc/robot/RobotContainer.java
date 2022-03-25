@@ -81,7 +81,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     // AutoCedarFallsTwoBall twoball = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight, leftFlapper, rightFlapper);
-    AutoShootDuluth oneballNoBack = new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper);
+    AutoShootDuluth oneballNoBack = new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper, 1800);
     AutoOneBallBackup oneBallBackup = new AutoOneBallBackup(driveTrain, spinner, intake, leftFlapper, rightFlapper);
     // aChooser.setDefaultOption("Two Ball Auto", twoball);
     aChooser.setDefaultOption("One Ball Auto No Back", oneballNoBack);
@@ -113,7 +113,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(driveStick, 1).whileHeld(new SemiAutoBallAlign(driveTrain, ballLimeLight, driveStick));
-    new JoystickButton(driveStick, 2).whenPressed(new AutoDriveWeekZeroBack(driveTrain, .305));
+    new JoystickButton(driveStick, 2).whenPressed(new AutoDriveWeekZeroBack(driveTrain, .455));
   }
 
   /**

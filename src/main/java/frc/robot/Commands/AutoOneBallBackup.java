@@ -18,6 +18,9 @@ public class AutoOneBallBackup extends SequentialCommandGroup {
   public AutoOneBallBackup(DriveTrain driveTrain, VelocityPID spinner, Intake intake, SingleMotorControl leftFlapper, SingleMotorControl rightFlapper) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoDriveWeekZeroBack(driveTrain, .305), new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper));
+    addCommands(new AutoDriveWeekZeroBack(driveTrain, .305), new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper, 1900));
+  }
+  public String toString(){
+    return "Back";
   }
 }

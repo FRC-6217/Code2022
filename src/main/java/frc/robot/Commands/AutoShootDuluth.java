@@ -30,12 +30,14 @@ public class AutoShootDuluth extends CommandBase {
   private VelocityPID spinner;
   private double startTime;
   private double flapperTime;
-  public AutoShootDuluth(DriveTrain driveTrain, VelocityPID spinner, Intake intake, SingleMotorControl leftFlapper, SingleMotorControl rightFlapper) {
+  private double setpoint;
+  public AutoShootDuluth(DriveTrain driveTrain, VelocityPID spinner, Intake intake, SingleMotorControl leftFlapper, SingleMotorControl rightFlapper, double setpoint) {
     this.intake = intake;
     this.leftFlapper = leftFlapper;
     this.rightFlapper = rightFlapper; 
     this.driveTrain = driveTrain;
     this.spinner = spinner;
+    this.setpoint = setpoint;
 
     this.flapperTime = 0;
 
@@ -56,7 +58,7 @@ public class AutoShootDuluth extends CommandBase {
     this.prevState = AutoStates.SPEEDING;
     this.currentState = AutoStates.SPEEDING;
     this.nextState = AutoStates.SPEEDING;
-    spinner.setSetpoint(1700);
+    spinner.setSetpoint(setpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -129,5 +131,9 @@ public class AutoShootDuluth extends CommandBase {
   public boolean isFinished() {
     return -driveTrain.getLeftEncoderPosition() > 2;
 
+  }
+
+  public String toString(){
+    return "No back";
   }
 }
