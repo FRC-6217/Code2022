@@ -18,15 +18,15 @@ public class JoystickDrive extends CommandBase {
   /** Creates a new JoystickDrive. */
   private DriveTrain driveTrain;
   private Joystick joy;
-  private Lidar lidar;
-  private LimeLight ballLimeLight;
+  // private Lidar lidar;
+  // private LimeLight ballLimeLight;
   
 
-  public JoystickDrive(DriveTrain driveTrain, Joystick joy, Lidar lidar, LimeLight ballLimeLight) {
+  public JoystickDrive(DriveTrain driveTrain, Joystick joy){ //Lidar lidar, LimeLight ballLimeLight) {
     this.joy = joy;
     this.driveTrain = driveTrain;
-    this.lidar = lidar;
-    this.ballLimeLight = ballLimeLight;
+    // this.lidar = lidar;
+    // this.ballLimeLight = ballLimeLight;
     addRequirements(this.driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -43,13 +43,8 @@ public class JoystickDrive extends CommandBase {
     double rot = (Math.abs(joy.getRawAxis(2)) < 0.3) ? 0.0 : (joy.getRawAxis(2) * gov);
 
     driveTrain.drive(xSpeed, rot);
-    if(joy.getRawButton(1)){
-      driveTrain.resetEncoders();
-      driveTrain.resetGyro();
-      driveTrain.resetPose();
-    }
 
-    SmartDashboard.putNumber("Limelight In drive Code", ballLimeLight.getX());
+    
   }
 
   // Called once the command ends or is interrupted.

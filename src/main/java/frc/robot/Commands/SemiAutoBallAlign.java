@@ -25,13 +25,12 @@ public class SemiAutoBallAlign extends CommandBase {
   private LimeLight ballLimeLight;
   private Joystick joy;
 
-  public SemiAutoBallAlign(DriveTrain driveTrain, LimeLight ballLimeLight, LimeLight.PiplineID color, Joystick joy) {
+  public SemiAutoBallAlign(DriveTrain driveTrain, LimeLight ballLimeLight, Joystick joy) {
     addRequirements(driveTrain);
     addRequirements(ballLimeLight);
 
     this.driveTrain = driveTrain;
     this.ballLimeLight = ballLimeLight;
-    this.ballLimeLight.setPipline(color);
     this.state = BallIntakeState.Searching;
     this.joy = joy;
     // Use addRequirements() here to declare subsystem dependencies.

@@ -21,6 +21,6 @@ public class AutoCedarFallsTwoBall extends SequentialCommandGroup {
   public AutoCedarFallsTwoBall(DriveTrain driveTrain, Intake intake, VelocityPID spinner, LimeLight ballLimeLight, SingleMotorControl leftFlapper, SingleMotorControl rightFlapper) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoGrabber(driveTrain, intake, spinner, ballLimeLight), new AutoDrivePose(driveTrain, intake, spinner, true, false, new Pose2d(0.5, 0, new Rotation2d(Math.PI))), new AutoDriveDistance(driveTrain, intake, spinner, false, true, new Pose2d(0, 0, new Rotation2d(Math.PI))), new AutoFlapper(leftFlapper, rightFlapper, spinner, intake));
+    addCommands(new ResetPose(driveTrain), new AutoGrabber(driveTrain, intake, spinner, ballLimeLight), new AutoDrivePose(driveTrain, intake, spinner, true, false, new Pose2d(0.5, 0, new Rotation2d(Math.PI))), new AutoFlapper(leftFlapper, rightFlapper, spinner, intake));
   }
 }

@@ -41,8 +41,9 @@ public class JoystickBallHandler extends CommandBase {
 
 
     boolean isUserToggledSpinner = xbox.getYButtonPressed();
-    boolean isUserFlappingLeft = xbox.getXButton() || xbox.getAButton();
-    boolean isUserFlappingRight = xbox.getBButton() || xbox.getAButton();
+    boolean isUserToggledSpinnerLower = xbox.getAButtonPressed();
+    boolean isUserFlappingLeft = xbox.getXButton();
+    boolean isUserFlappingRight = xbox.getBButton();
     boolean isUserToggleIntakerForward = xbox.getRightBumperPressed();
     boolean isUserIntakingReverse = xbox.getRightTriggerAxis() > 0.5;
 
@@ -61,6 +62,17 @@ public class JoystickBallHandler extends CommandBase {
         spinner.turnOff();
       }
       else {
+        spinner.setSetpoint(1700);
+        spinner.turnOn();
+      }
+    }
+
+    if (isUserToggledSpinnerLower){
+      if(spinner.getMotorState()){
+        spinner.turnOff();
+      }
+      else {
+        spinner.setSetpoint(1200);
         spinner.turnOn();
       }
     }

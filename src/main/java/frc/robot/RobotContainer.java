@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.SingleMotorControl;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.JoystickHanger;
 import frc.robot.commands.SemiAutoBallAlign;
+import frc.robot.commands.SemiAutoLidarDistance;
 import frc.robot.commands.extenderPIDCommand;
 import frc.robot.commands.bad.JoystickExtender;
 import frc.robot.commands.bad.JoystickShooter;
@@ -39,6 +42,7 @@ import frc.robot.commands.AutoCedarFallsTwoBall;
 import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDrivePose;
 import frc.robot.commands.AutoDriveWeekZero;
+import frc.robot.commands.AutoDriveWeekZeroBack;
 import frc.robot.commands.AutoFlapper;
 import frc.robot.commands.AutoGrabber;
 import frc.robot.commands.AutoShootDuluth;
@@ -55,7 +59,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
  private final Intake intake = new Intake();
 
-  private final Lidar lidar = new Lidar();
+  // private final Lidar lidar = new Lidar();
   //private final Flapper left_flapper = new Flapper(23);
 
   private final SingleMotorControl rightFlapper = new SingleMotorControl(23, MotorType.kBrushless, true, 0.1, 0.2);
@@ -69,19 +73,25 @@ public class RobotContainer {
   private final XboxController xbox = new XboxController(1);
 
   private final LimeLight ballLimeLight = new LimeLight("ball");
-  private final LimeLight ringLimeLight = new LimeLight("ring");
 
   private final LEDController ledController = new LEDController();
 
+  SendableChooser<Command> aChooser = new SendableChooser<>();
+
   public RobotContainer() {
-    
+    AutoCedarFallsTwoBall twoball = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight, leftFlapper, rightFlapper);
+    AutoShootDuluth oneball = new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper);
+    aChooser.setDefaultOption("Two Ball Auto", twoball);
+    aChooser.addOption("One Ball Auto", oneball);
+    aChooser.addOption("Null", null); 
+    SmartDashboard.putData(aChooser);
 
 
     ledController.set(DriverStation.getAlliance());
     // Configure the button bindings
     configureButtonBindings();
 
-    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick, lidar, ballLimeLight));
+    CommandScheduler.getInstance().setDefaultCommand(driveTrain, new JoystickDrive(driveTrain, driveStick));//, lidar, ballLimeLight));
 
     CommandScheduler.getInstance().setDefaultCommand(spinner, new JoystickBallHandler(leftFlapper, rightFlapper, spinner, intake, xbox));
     CommandScheduler.getInstance().setDefaultCommand(extender, new JoystickExtender(extender, xbox));
@@ -99,8 +109,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveStick, 2).whileHeld(new SemiAutoBallAlign(driveTrain, ballLimeLight, LimeLight.PiplineID.RedBall, driveStick));
-  
+    new JoystickButton(driveStick, 1).whileHeld(new SemiAutoBallAlign(driveTrain, ballLimeLight, driveStick));
+    new JoystickButton(driveStick, 2).whenPressed(new AutoDriveWeekZeroBack(driveTrain, .305));
   }
 
   /**
@@ -109,8 +119,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command m_autoCommand = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight, leftFlapper, rightFlapper);//new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight);//new AutoGrabber(driveTrain, intake, spinner, ballLimeLight);//new AutoDrivePose(driveTrain, new Pose2d(0, 0, new Rotation2d(Math.PI))); // new AutoShootDuluth(driveTrain,spinner,intake,leftFlapper,rightFlapper);
+
+    
+    //new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight);//new AutoGrabber(driveTrain, intake, spinner, ballLimeLight);//new AutoDrivePose(driveTrain, new Pose2d(0, 0, new Rotation2d(Math.PI))); // new AutoShootDuluth(driveTrain,spinner,intake,leftFlapper,rightFlapper);
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return aChooser.getSelected();//new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper);//aChooser.getSelected();//new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper);//aChooser.getSelected();//new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper);
   }
 }

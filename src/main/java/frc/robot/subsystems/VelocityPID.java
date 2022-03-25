@@ -94,6 +94,10 @@ public class VelocityPID extends SubsystemBase {
     sumError = 0;
     previousError = 0;
   }
+
+  public void setSetpoint(double setpoint){
+    SmartDashboard.putNumber(name + " Set Point", setpoint);
+  }
   
   public boolean getMotorState(){
     return motorState;
@@ -104,10 +108,10 @@ public class VelocityPID extends SubsystemBase {
   }
 
   public void increaseSetpoint(){
-    spinnerOffset += 100;
+    //spinnerOffset += 100;
   }
   public void decreaseSetpoint(){
-    spinnerOffset -= 100;
+    //spinnerOffset -= 100;
   }
   public void clearSpinnerOffset(){
     spinnerOffset = 0;

@@ -16,11 +16,12 @@ public class LimeLight extends SubsystemBase {
 
   NetworkTable table;
   NetworkTableEntry  x, y, area, valid;
+  private boolean isRed = false;
+  private boolean isBlue = false;
 
   public enum PiplineID{
     RedBall,
-    BlueBall,
-    Range
+    BlueBall
   }
   /** Creates a new LimeLight. */
   public LimeLight(String name) {
@@ -29,16 +30,21 @@ public class LimeLight extends SubsystemBase {
     y = table.getEntry("ty");
     area = table.getEntry("ta");
     valid = table.getEntry("tv");
-    if(DriverStation.getAlliance() == Alliance.Red){
-      setPipline(LimeLight.PiplineID.RedBall);
-    }
-    else{
-      setPipline(LimeLight.PiplineID.BlueBall);
-    }
   }
 
   @Override
   public void periodic() {
+    if(!isRed && DriverStation.getAlliance() == Alliance.Red){
+      setPipline(LimeLight.PiplineID.RedBall);
+      isRed = true;
+      isBlue = false;
+    }
+    else if(!isBlue && DriverStation.getAlliance() == Alliance.Blue){
+      setPipline(LimeLight.PiplineID.BlueBall);
+      isBlue = true;
+      isRed = false;
+    }
+    
     // This method will be called once per scheduler run
 
     SmartDashboard.putNumber("LimelightX", x.getDouble(0));
@@ -64,14 +70,16 @@ public class LimeLight extends SubsystemBase {
 
 
   public void setPipline(PiplineID piplineID){
+    boolean setting = true;
     switch(piplineID){
       case BlueBall:
-        table.getEntry("pipline").setNumber(0);
+        setting = table.getEntry("pipeline").setNumber(0);
+        break;
       case RedBall:
-        table.getEntry("pipline").setNumber(1);
-      case Range:
-        table.getEntry("pipline").setNumber(0);
+        setting = table.getEntry("pipeline").setNumber(1);
+        break;
     }
+    SmartDashboard.putBoolean("Setting LL", setting);
   }
 
 }

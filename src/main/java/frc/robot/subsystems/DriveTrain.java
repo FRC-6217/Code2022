@@ -107,7 +107,7 @@ public class DriveTrain extends SubsystemBase {
     resetGyro();
     dt_odometry = new DifferentialDriveOdometry(new Rotation2d(Math.PI * getAngle() / 180));
 
-  //  CameraServer.startAutomaticCapture();
+   CameraServer.startAutomaticCapture();
 
 
   }

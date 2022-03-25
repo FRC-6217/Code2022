@@ -37,12 +37,9 @@ public class AutoShootDuluth extends CommandBase {
     this.driveTrain = driveTrain;
     this.spinner = spinner;
 
-    this.startTime = Timer.getFPGATimestamp();
     this.flapperTime = 0;
 
-    this.prevState = AutoStates.SPEEDING;
-    this.currentState = AutoStates.SPEEDING;
-    this.nextState = AutoStates.SPEEDING;
+
     addRequirements(driveTrain);
     addRequirements(intake);
     addRequirements(leftFlapper);
@@ -55,6 +52,10 @@ public class AutoShootDuluth extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = Timer.getFPGATimestamp();
+    this.prevState = AutoStates.SPEEDING;
+    this.currentState = AutoStates.SPEEDING;
+    this.nextState = AutoStates.SPEEDING;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -83,7 +84,6 @@ public class AutoShootDuluth extends CommandBase {
         break;
       case SPEEDING:
         spinner.turnOn();
-
         if(spinner.isAtSetpoint() && Math.abs(Timer.getFPGATimestamp() - startTime) > 4){
           nextState = AutoStates.SHOOTING;
           flapperTime = Timer.getFPGATimestamp();
@@ -126,6 +126,7 @@ public class AutoShootDuluth extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return -driveTrain.getLeftEncoderPosition() > 112 * 0.02268;
+    return -driveTrain.getLeftEncoderPosition() > 2;
+
   }
 }
