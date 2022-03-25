@@ -56,6 +56,7 @@ public class AutoShootDuluth extends CommandBase {
     this.prevState = AutoStates.SPEEDING;
     this.currentState = AutoStates.SPEEDING;
     this.nextState = AutoStates.SPEEDING;
+    spinner.setSetpoint(1700);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

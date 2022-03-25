@@ -45,6 +45,7 @@ import frc.robot.commands.AutoDriveWeekZero;
 import frc.robot.commands.AutoDriveWeekZeroBack;
 import frc.robot.commands.AutoFlapper;
 import frc.robot.commands.AutoGrabber;
+import frc.robot.commands.AutoOneBallBackup;
 import frc.robot.commands.AutoShootDuluth;
 import frc.robot.commands.JoystickBallHandler;
 /**
@@ -79,10 +80,12 @@ public class RobotContainer {
   SendableChooser<Command> aChooser = new SendableChooser<>();
 
   public RobotContainer() {
-    AutoCedarFallsTwoBall twoball = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight, leftFlapper, rightFlapper);
-    AutoShootDuluth oneball = new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper);
-    aChooser.setDefaultOption("Two Ball Auto", twoball);
-    aChooser.addOption("One Ball Auto", oneball);
+    // AutoCedarFallsTwoBall twoball = new AutoCedarFallsTwoBall(driveTrain, intake, spinner, ballLimeLight, leftFlapper, rightFlapper);
+    AutoShootDuluth oneballNoBack = new AutoShootDuluth(driveTrain, spinner, intake, leftFlapper, rightFlapper);
+    AutoOneBallBackup oneBallBackup = new AutoOneBallBackup(driveTrain, spinner, intake, leftFlapper, rightFlapper);
+    // aChooser.setDefaultOption("Two Ball Auto", twoball);
+    aChooser.setDefaultOption("One Ball Auto No Back", oneballNoBack);
+    aChooser.addOption("One Ball Auto Back Up", oneBallBackup);
     aChooser.addOption("Null", null); 
     SmartDashboard.putData(aChooser);
 
