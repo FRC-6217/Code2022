@@ -169,7 +169,7 @@ public class VelocityPID extends SubsystemBase {
       isAtSetpoint = false;
     }
 
-
+    SmartDashboard.putBoolean(name + "State", getMotorState());
     // This method will be called once per scheduler run
   }
 }

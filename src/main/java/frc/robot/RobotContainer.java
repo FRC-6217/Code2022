@@ -63,11 +63,11 @@ public class RobotContainer {
   // private final Lidar lidar = new Lidar();
   //private final Flapper left_flapper = new Flapper(23);
 
-  private final SingleMotorControl rightFlapper = new SingleMotorControl(23, MotorType.kBrushless, true, 0.1, 0.2);
-  private final SingleMotorControl leftFlapper = new SingleMotorControl(22, MotorType.kBrushless, false, 0.1, 0.4);
+  private final SingleMotorControl rightFlapper = new SingleMotorControl(23, "RightFlapper", MotorType.kBrushless, true, 0.1, 0.2);
+  private final SingleMotorControl leftFlapper = new SingleMotorControl(22, "LeftFlapper", MotorType.kBrushless, false, 0.1, 0.4);
   private final VelocityPID spinner = new VelocityPID("spinner", 20);
-  private final SingleMotorControl extender = new SingleMotorControl(Constants.HANGER.EXTENDER_ID, MotorType.kBrushless, false, 0.1, .5);
-  private final SingleMotorControl winch = new SingleMotorControl(10, MotorType.kBrushless, false, 0.1, 1);
+  private final SingleMotorControl extender = new SingleMotorControl(Constants.HANGER.EXTENDER_ID, "Extender", MotorType.kBrushless, false, 0.1, .5);
+  private final SingleMotorControl winch = new SingleMotorControl(10, "Winch", MotorType.kBrushless, false, 0.1, 1);
  // private final PositionPID extenderPID = new PositionPID("extender", Constants.HANGER.EXTENDER_ID, 0, 0, 0);
   private final Joystick driveStick = new Joystick(0);
 

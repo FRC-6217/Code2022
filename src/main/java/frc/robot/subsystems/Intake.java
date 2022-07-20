@@ -58,5 +58,21 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    boolean on = false;
+    switch(motorState){
+      case OFF:
+        on = false;
+        break;
+      case REVERSE:
+        on = true;
+        break;
+      case SLOW:
+        on = true;
+        break;
+      case FAST:
+        on = true;
+        break;
+    }
+    SmartDashboard.putBoolean("Intake State", on);
   }
 }
